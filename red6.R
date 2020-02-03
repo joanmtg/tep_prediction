@@ -2,7 +2,7 @@ library(neuralnet)
 library(ggplot2)
 
 
-setwd("/home/joan/Desktop/Tesis")
+setwd("/home/joan/Desktop/Tesis/tep_prediction")
 data = read.table("data_tep.csv", header = T, sep=",")
 #dim(data)
 #print(names(data))

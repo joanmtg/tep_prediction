@@ -10,7 +10,7 @@ set.seed(347)
 cv.error = NULL
 k = 5
 
-setwd("/home/joan/Desktop/Tesis")
+setwd("/home/joan/Desktop/Tesis/tep_prediction")
 data = read.table("data_tep.csv", header = T, sep=",")
 
 pbar <- create_progress_bar('text')
