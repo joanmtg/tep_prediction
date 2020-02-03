@@ -54,43 +54,23 @@ red_neuronal = function(data, test, train) {
 
 }
 
-#for (i in 1:k){
 
-    #random = round(0.2 * nrow(data), digits = 0)
-    total_index = 1:nrow(data)
-    dinam_index = 1:nrow(data)
+total_index = 1:nrow(data)
+dinam_index = 1:nrow(data)
 
-    index_test_1 = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
-    index_train_1 = setdiff(total_index,index_test_1)
-    red_neuronal(data, index_test_1, index_train_1)
-    dinam_index = setdiff(dinam_index, index_test_1)
+index_test = NULL
+index_train = NULL
 
-    index_test_2 = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
-    index_train_2 = setdiff(total_index,index_test_2)
-    red_neuronal(data, index_test_2, index_train_2)
-    dinam_index = setdiff(dinam_index, index_test_2)
-    
-    index_test_3 = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
-    index_train_3 = setdiff(total_index,index_test_3)
-    red_neuronal(data, index_test_3, index_train_3)
-    dinam_index = setdiff(dinam_index, index_test_3)
+l_tests = vector(mode="list", length=k)
 
-    index_test_4 = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
-    index_train_4 = setdiff(total_index,index_test_4)
-    red_neuronal(data, index_test_4, index_train_4)
-    dinam_index = setdiff(dinam_index, index_test_4)
+for (i in 1:k){
+    index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
+    index_train = setdiff(total_index,index_test)
+    red_neuronal(data, index_test, index_train)
+    dinam_index = setdiff(dinam_index, index_test)
+    l_tests[[i]] = index_test  
+}
 
-    index_test_5 = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
-    index_train_5 = setdiff(total_index,index_test_5)
-    red_neuronal(data, index_test_5, index_train_5)
 
-    #Reduce(intersect, list(index_test_1, total_index))
-    Reduce(intersect, list(index_test_1, index_test_2, index_test_3, index_test_4, index_test_5))
-
-    #print(index_test)
-    #print(index_train) 
-
-    
-    #pbar$step()
-
-#}
+#Reduce(intersect, list(index_test_1, total_index))
+Reduce(intersect, l_tests)
