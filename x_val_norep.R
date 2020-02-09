@@ -9,17 +9,20 @@ library(plyr)
 library(Metrics)
 
 set.seed(347)
-k = 5
+num_tests = 5
+limit_layer_1 = 15
+limit_layer_2 = 8
+limit_layer_3 = 4
 
 setwd("/home/joan/Desktop/Tesis/tep_prediction")
 data = read.table("data_tep.csv", header = T, sep=",")
 
 #Progress bar
 pbar <- create_progress_bar('text')
-pbar$init(k)
+pbar$init(num_tests)
 
 
-red_neuronal = function(data, test, train) {
+red_neuronal = function(data, test, train, h_layers) {
 
     max = apply(data , 2 , max)
     min = apply(data, 2 , min)
@@ -37,13 +40,13 @@ red_neuronal = function(data, test, train) {
 
     NN = neuralnet(f,
                     data          = trainNN,
-                    hidden        = c(15,7),
+                    hidden        = h_layers,
                     threshold     = 0.03,  
                     algorithm     = "rprop+",
                     act.fct       = "logistic",
                     rep=3 
     )
-    plot(NN)
+    #plot(NN)
 
     predict_testNN = compute(NN, testNN[,c(1:31)])    
     tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
@@ -68,30 +71,94 @@ red_neuronal = function(data, test, train) {
 
 }
 
+averages_list = list()
 
-total_index = 1:nrow(data)
-dinam_index = 1:nrow(data)
+for (i in 1:limit_layer_1){
 
-index_test = NULL
-index_train = NULL
+    total_index = 1:nrow(data)
+    dinam_index = 1:nrow(data)
 
-#l_tests = vector(mode="list", length=k)
+    index_test = NULL
+    index_train = NULL
 
-sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+    sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
 
-for (i in 1:k){
-    index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
-    index_train = setdiff(total_index,index_test)
-    results = red_neuronal(data, index_test, index_train)
-    dinam_index = setdiff(dinam_index, index_test)       
-    sum_metrics = sum_metrics + results    
-    #l_tests[[i]] = index_test   
+    for (l in 1:num_tests){
+        index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
+        index_train = setdiff(total_index,index_test)
+        results = red_neuronal(data, index_test, index_train, c(i))
+        dinam_index = setdiff(dinam_index, index_test)       
+        sum_metrics = sum_metrics + results    
+    }
+    
+    #print(sum_metrics)
+    average = sum_metrics / num_tests
+
+    cat("Layers: (", i, ")")
+    print(average)
+    #averages_list[[length(averages_list)+1]] = list(average)
+
 }
 
-print(sum_metrics)
-average = sum_metrics / k
-print(average)
+
+for (i in 1:limit_layer_1){
+
+    for (j in 1:limit_layer_2){
+
+        total_index = 1:nrow(data)
+        dinam_index = 1:nrow(data)
+
+        index_test = NULL
+        index_train = NULL
+
+        sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+
+        for (l in 1:num_tests){
+            index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
+            index_train = setdiff(total_index,index_test)
+            results = red_neuronal(data, index_test, index_train, c(i, j))
+            dinam_index = setdiff(dinam_index, index_test)       
+            sum_metrics = sum_metrics + results   
+        }
+        
+        #print(sum_metrics)
+        average = sum_metrics / num_tests
+
+        cat("Layers: (", i, ", ", j, ")")
+        print(average)
+    }   
+}
 
 
-#print("Intersection between test sets:")
-#Reduce(intersect, l_tests)
+
+for (i in 1:limit_layer_1){
+
+    for (j in 1:limit_layer_2){
+
+        for (k in 1:limit_layer_3){        
+
+            total_index = 1:nrow(data)
+            dinam_index = 1:nrow(data)
+
+            index_test = NULL
+            index_train = NULL
+
+            sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+
+            for (l in 1:num_tests){
+                index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
+                index_train = setdiff(total_index,index_test)
+                results = red_neuronal(data, index_test, index_train, c(i, j, k))
+                dinam_index = setdiff(dinam_index, index_test)       
+                sum_metrics = sum_metrics + results   
+            }
+            
+            #print(sum_metrics)
+            average = sum_metrics / num_tests
+
+            cat("Layers: (", i, ", ", j, ", ", k, ")")
+            print(average)
+        }
+    }   
+}
+
