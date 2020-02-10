@@ -71,7 +71,9 @@ red_neuronal = function(data, test, train, h_layers) {
 
 }
 
-averages_list = list()
+if(FALSE){
+
+averages_1_layer = list()
 
 for (i in 1:limit_layer_1){
 
@@ -94,12 +96,23 @@ for (i in 1:limit_layer_1){
     #print(sum_metrics)
     average = sum_metrics / num_tests
 
-    cat("Layers: (", i, ")")
+    cat("Layers: (", i, ")") 
+    layers= paste("",i, sep="")  
     print(average)
-    #averages_list[[length(averages_list)+1]] = list(average)
+
+    average[[length(average)+1]] = layers
+    averages_1_layer[[length(averages_1_layer)+1]] = list(average)
 
 }
 
+write_list = plyr::adply(averages_1_layer,1,unlist,.id = NULL)
+write.csv(write_list, "one_layer.csv")
+
+}
+
+if(FALSE){
+
+averages_2_layers = list()
 
 for (i in 1:limit_layer_1){
 
@@ -125,11 +138,23 @@ for (i in 1:limit_layer_1){
         average = sum_metrics / num_tests
 
         cat("Layers: (", i, ", ", j, ")")
+        layers= paste(i, j, sep="-")  
         print(average)
+
+        average[[length(average)+1]] = layers
+        averages_2_layers[[length(averages_2_layers)+1]] = list(average)
     }   
 }
 
+write_list = plyr::adply(averages_2_layers,1,unlist,.id = NULL)
+write.csv(write_list, "two_layers.csv")
 
+}
+
+
+#if(FALSE){
+
+averages_3_layers = list()
 
 for (i in 1:limit_layer_1){
 
@@ -157,8 +182,18 @@ for (i in 1:limit_layer_1){
             average = sum_metrics / num_tests
 
             cat("Layers: (", i, ", ", j, ", ", k, ")")
+            layers= paste(i, j, k, sep="-")  
             print(average)
+
+            average[[length(average)+1]] = layers
+            averages_3_layers[[length(averages_3_layers)+1]] = list(average)
         }
     }   
 }
+
+write_list = plyr::adply(averages_3_layers,1,unlist,.id = NULL)
+write.csv(write_list, "three_layers.csv")
+
+
+#}
 
