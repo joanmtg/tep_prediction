@@ -1,5 +1,0 @@
-source("red.R")
-source("red2.R")
-source("red3.R")
-source("red4.R")
-source("red5.R")

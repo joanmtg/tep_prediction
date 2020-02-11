@@ -1,3 +1,6 @@
+install.packages('neuralnet')
+install.packages('ggplot2')
+
 library(neuralnet)
 library(ggplot2)
 
@@ -14,7 +17,7 @@ index_test = sample(total_index, size = random)
 index_train = setdiff(total_index,index_test)
 
 #print(index_test)
-#print(index_train)
+#print(index_train) 
 
 max = apply(data , 2 , max)
 min = apply(data, 2 , min)
@@ -31,20 +34,20 @@ n = names(trainNN)
 f = as.formula(paste("tep ~", paste(n[!n %in% "tep"], collapse = " + ")))
 
 NN = neuralnet(f,
-                  data          = trainNN,
-                  hidden        = c(3,2),
-                  threshold     = 0.03,  
-                  algorithm     = "rprop+",                  
-                  rep=3 
+                data          = trainNN,
+                hidden        = c(15,7),
+                threshold     = 0.03,  
+                algorithm     = "rprop+",
+                #act.fct       = "logistic",
+                rep=3 
 )
 plot(NN)
 
 predict_testNN = compute(NN, testNN[,c(1:31)])    
-tep.predict  = predict_testNN$net.result
-tep.real = testNN$tep 
+tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
+tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
 
 datarealpred =cbind.data.frame(tep.predict,tep.real)
     
 print(datarealpred)
   
-

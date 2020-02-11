@@ -42,7 +42,7 @@ red_neuronal = function(data, test, train, h_layers) {
                     data          = trainNN,
                     hidden        = h_layers,
                     threshold     = 0.03,  
-                    algorithm     = "rprop+",
+                    algorithm     = "slr",
                     act.fct       = "logistic",
                     rep=3 
     )
@@ -71,7 +71,7 @@ red_neuronal = function(data, test, train, h_layers) {
 
 }
 
-if(FALSE){
+#if(FALSE){
 
 averages_1_layer = list()
 
@@ -108,9 +108,9 @@ for (i in 1:limit_layer_1){
 write_list = plyr::adply(averages_1_layer,1,unlist,.id = NULL)
 write.csv(write_list, "one_layer.csv")
 
-}
+#}
 
-if(FALSE){
+#if(FALSE){
 
 averages_2_layers = list()
 
@@ -149,7 +149,7 @@ for (i in 1:limit_layer_1){
 write_list = plyr::adply(averages_2_layers,1,unlist,.id = NULL)
 write.csv(write_list, "two_layers.csv")
 
-}
+#}
 
 
 #if(FALSE){
