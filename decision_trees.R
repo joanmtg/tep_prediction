@@ -1,8 +1,8 @@
 #install.packages('caTools')
 #install.packages('caret')
-#install.packages('e1071')
+#install.packages('rpart')
 
-library(e1071)
+library(rpart)
 library(caTools)
 library(caret)
 
@@ -27,16 +27,14 @@ f = as.formula(paste("tep ~", paste(n[!n %in% "tep"], collapse = " + ")))
 folds = createFolds(dataset$tep, k = 5)
 print(folds)
 
-cvKernelSVM = lapply(folds, function(x){
+cvDecisionTree = lapply(folds, function(x){
     training_fold = dataset[-x, ]
     test_fold = dataset[x, ]
 
-    classifier = svm(formula = f,
-                 data = training_fold,
-                 type = 'C-classification',
-                 kernel = 'radial')                 
+    classifier = rpart(formula = f,
+                 data = training_fold)                 
 
-    y_pred = predict(classifier, newdata = test_fold[,c(1:31)])
+    y_pred = predict(classifier, newdata = test_fold[,c(1:31)], type = 'class')
 
     c_matrix = table(test_fold$tep, y_pred)
     print(c_matrix)
@@ -44,7 +42,7 @@ cvKernelSVM = lapply(folds, function(x){
     return(precision)
 })
 
-precisionKernelSVM = mean(as.numeric(cvKernelSVM))
+precisionDecisionTree = mean(as.numeric(cvDecisionTree))
 
-print(precisionKernelSVM)
+print(precisionDecisionTree)
 
