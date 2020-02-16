@@ -43,7 +43,7 @@ NN = neuralnet(f,
 )
 plot(NN)
 
-predict_testNN = compute(NN, testNN[,c(1:31)])    
+predict_testNN = compute(NN, testNN[,c(1:29)])    
 tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
 tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
 

@@ -42,13 +42,13 @@ red_neuronal = function(data, test, train, h_layers) {
                     data          = trainNN,
                     hidden        = h_layers,
                     threshold     = 0.03,  
-                    algorithm     = "slr",
+                    algorithm     = "rprop+",
                     act.fct       = "logistic",
                     rep=3 
     )
     #plot(NN)
 
-    predict_testNN = compute(NN, testNN[,c(1:31)])    
+    predict_testNN = compute(NN, testNN[,c(1:29)])    
     tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
     tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
 
@@ -57,13 +57,23 @@ red_neuronal = function(data, test, train, h_layers) {
     datarealpred =cbind.data.frame(tep.predict,tep.real)
 
     #print("Prediction against real:")   
-    #print(datarealpred)       
+    #print(datarealpred)           
 
-    result = c(accuracy =  accuracy(tep.real, tep.predict), 
-                  auc = auc(tep.real, tep.predict),
-                  precision = precision(tep.real, tep.predict),
-                  recall = recall(tep.real,tep.predict),
-                  f1 = f1(tep.real, tep.predict))
+    accuracy =  accuracy(tep.real, tep.predict)
+    auc = auc(tep.real, tep.predict)
+    precision = precision(tep.real, tep.predict)
+    recall = recall(tep.real,tep.predict)
+    f1 = (2 * precision * recall) / (precision + recall)
+
+
+    result = c(accuracy = accuracy, 
+                  auc = auc,
+                  precision = precision,
+                  recall = recall,
+                  f1 = f1)
+
+    #print(table(tep.real, tep.predict))
+    #print(f1(tep.real, tep.predict))
 
     pbar$step()
 
@@ -91,6 +101,7 @@ for (i in 1:limit_layer_1){
         results = red_neuronal(data, index_test, index_train, c(i))
         dinam_index = setdiff(dinam_index, index_test)       
         sum_metrics = sum_metrics + results    
+        #print(results)
     }
     
     #print(sum_metrics)
@@ -106,7 +117,7 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_1_layer,1,unlist,.id = NULL)
-write.csv(write_list, "one_layer.csv")
+write.csv(write_list, "one_layers_rprop.csv")
 
 #}
 
@@ -147,7 +158,7 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_2_layers,1,unlist,.id = NULL)
-write.csv(write_list, "two_layers.csv")
+write.csv(write_list, "two_layers_rprop_minus.csv")
 
 #}
 
@@ -192,7 +203,7 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_3_layers,1,unlist,.id = NULL)
-write.csv(write_list, "three_layers.csv")
+write.csv(write_list, "three_layers_rprop_minus.csv")
 
 
 #}

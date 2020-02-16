@@ -10,7 +10,7 @@ setwd("/home/joan/Desktop/Tesis/tep_prediction")
 dataset = read.csv("data_tep.csv")
 
 dataset$tep = factor(dataset$tep, levels = c("0", "1"), labels = c("NoTEP", "SiTEP"))
-dataset[, c(1:31)] = scale(dataset[, c(1:31)])
+dataset[, c(1:29)] = scale(dataset[, c(1:29)])
 summary(dataset)
 
 set.seed(28)
@@ -34,7 +34,7 @@ cvDecisionTree = lapply(folds, function(x){
     classifier = rpart(formula = f,
                  data = training_fold)                 
 
-    y_pred = predict(classifier, newdata = test_fold[,c(1:31)], type = 'class')
+    y_pred = predict(classifier, newdata = test_fold[,c(1:29)], type = 'class')
 
     c_matrix = table(test_fold$tep, y_pred)
     print(c_matrix)
