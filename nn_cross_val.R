@@ -117,7 +117,7 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_1_layer,1,unlist,.id = NULL)
-write.csv(write_list, "one_layers_rprop.csv")
+write.csv(write_list, "one_layers_rprop_plus.csv")
 
 #}
 
@@ -158,7 +158,7 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_2_layers,1,unlist,.id = NULL)
-write.csv(write_list, "two_layers_rprop_minus.csv")
+write.csv(write_list, "CSV/two_layers_rprop_plus.csv")
 
 #}
 
@@ -203,7 +203,7 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_3_layers,1,unlist,.id = NULL)
-write.csv(write_list, "three_layers_rprop_minus.csv")
+write.csv(write_list, "three_layers_rprop_plus.csv")
 
 
 #}
