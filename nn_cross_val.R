@@ -10,9 +10,9 @@ library(Metrics)
 
 set.seed(347)
 num_tests = 5
-limit_layer_1 = 15
-limit_layer_2 = 8
-limit_layer_3 = 4
+limit_layer_1 = 20
+limit_layer_2 = 20
+limit_layer_3 = 20
 
 setwd("/home/joan/Desktop/Tesis/tep_prediction")
 data = read.table("data_tep.csv", header = T, sep=",")
@@ -81,7 +81,7 @@ red_neuronal = function(data, test, train, h_layers) {
 
 }
 
-#if(FALSE){
+if(FALSE){
 
 averages_1_layer = list()
 
@@ -117,11 +117,11 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_1_layer,1,unlist,.id = NULL)
-write.csv(write_list, "one_layers_rprop_plus.csv")
+write.csv(write_list, "CSV/one_layers_rprop_plus.csv")
 
-#}
+}
 
-#if(FALSE){
+if(FALSE){
 
 averages_2_layers = list()
 
@@ -160,7 +160,7 @@ for (i in 1:limit_layer_1){
 write_list = plyr::adply(averages_2_layers,1,unlist,.id = NULL)
 write.csv(write_list, "CSV/two_layers_rprop_plus.csv")
 
-#}
+}
 
 
 #if(FALSE){
@@ -203,7 +203,7 @@ for (i in 1:limit_layer_1){
 }
 
 write_list = plyr::adply(averages_3_layers,1,unlist,.id = NULL)
-write.csv(write_list, "three_layers_rprop_plus.csv")
+write.csv(write_list, "CSV/three_layers_rprop_plus.csv")
 
 
 #}

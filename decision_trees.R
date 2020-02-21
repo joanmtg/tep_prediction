@@ -13,36 +13,48 @@ dataset$tep = factor(dataset$tep, levels = c("0", "1"), labels = c("NoTEP", "SiT
 dataset[, c(1:29)] = scale(dataset[, c(1:29)])
 summary(dataset)
 
-set.seed(28)
-split = sample.split(dataset$tep, SplitRatio = 0.80)
-training_set = subset(dataset, split == TRUE)
-test_set = subset(dataset, split == FALSE)
+decision_tree = function(method, type, dataset){
+    set.seed(28)
+    split = sample.split(dataset$tep, SplitRatio = 0.80)
+    training_set = subset(dataset, split == TRUE)
+    test_set = subset(dataset, split == FALSE)
 
-table(training_set$tep)
-table(test_set$tep)
+    table(training_set$tep)
+    table(test_set$tep)
 
-n = names(training_set)
-f = as.formula(paste("tep ~", paste(n[!n %in% "tep"], collapse = " + ")))
+    n = names(training_set)
+    f = as.formula(paste("tep ~", paste(n[!n %in% "tep"], collapse = " + ")))
 
-folds = createFolds(dataset$tep, k = 5)
-print(folds)
+    folds = createFolds(dataset$tep, k = 5)
+    print(folds)
 
-cvDecisionTree = lapply(folds, function(x){
-    training_fold = dataset[-x, ]
-    test_fold = dataset[x, ]
+    cvDecisionTree = lapply(folds, function(x){
+        training_fold = dataset[-x, ]
+        test_fold = dataset[x, ]
 
-    classifier = rpart(formula = f,
-                 data = training_fold)                 
+        classifier = rpart(formula = f,
+                    data = training_fold,
+                    method = method)                 
 
-    y_pred = predict(classifier, newdata = test_fold[,c(1:29)], type = 'class')
+        y_pred = predict(classifier, newdata = test_fold[,c(1:29)], type = type)
 
-    c_matrix = table(test_fold$tep, y_pred)
-    print(c_matrix)
-    precision = (c_matrix[1,1] + c_matrix[2,2]) / (c_matrix[1,1] + c_matrix[2,2] +c_matrix[1,2] + c_matrix[2,1])
-    return(precision)
-})
+        c_matrix = table(test_fold$tep, y_pred)
+        print(c_matrix)
+        precision = (c_matrix[1,1] + c_matrix[2,2]) / (c_matrix[1,1] + c_matrix[2,2] +c_matrix[1,2] + c_matrix[2,1])
+        return(precision)
+    })
 
-precisionDecisionTree = mean(as.numeric(cvDecisionTree))
+    precisionDecisionTree = mean(as.numeric(cvDecisionTree))
 
-print(precisionDecisionTree)
+    print(precisionDecisionTree)
+}
+
+print("Class: ")
+decision_tree("class", "class", dataset)
+print("Anova: ")
+decision_tree("anova", "vector",dataset)
+print("Poisson: ")
+decision_tree("poisson", "vector", dataset)
+
+
 
