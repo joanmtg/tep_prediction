@@ -8,14 +8,14 @@ library(ggplot2)
 library(plyr)
 library(Metrics)
 
-set.seed(347)
+set.seed(346)
 num_tests = 5
-limit_layer_1 = 20
+limit_layer_1 = 5
 limit_layer_2 = 20
 limit_layer_3 = 20
 
 setwd("/home/joan/Desktop/Tesis/tep_prediction")
-data = read.table("data_tep.csv", header = T, sep=",")
+data = read.table("data_tep_reduced.csv", header = T, sep=",")
 
 #Progress bar
 pbar <- create_progress_bar('text')
@@ -48,7 +48,7 @@ red_neuronal = function(data, test, train, h_layers) {
     )
     #plot(NN)
 
-    predict_testNN = compute(NN, testNN[,c(1:29)])    
+    predict_testNN = compute(NN, testNN[,c(1:7)])    
     tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
     tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
 
@@ -57,7 +57,7 @@ red_neuronal = function(data, test, train, h_layers) {
     datarealpred =cbind.data.frame(tep.predict,tep.real)
 
     #print("Prediction against real:")   
-    #print(datarealpred)           
+    #print(datarealpred)        
 
     accuracy =  accuracy(tep.real, tep.predict)
     auc = auc(tep.real, tep.predict)
@@ -72,7 +72,7 @@ red_neuronal = function(data, test, train, h_layers) {
                   recall = recall,
                   f1 = f1)
 
-    #print(table(tep.real, tep.predict))
+    print(table(tep.real, tep.predict))
     #print(f1(tep.real, tep.predict))
 
     pbar$step()
@@ -81,7 +81,7 @@ red_neuronal = function(data, test, train, h_layers) {
 
 }
 
-if(FALSE){
+if(TRUE){
 
 averages_1_layer = list()
 
@@ -205,5 +205,33 @@ for (i in 1:limit_layer_1){
 write_list = plyr::adply(averages_3_layers,1,unlist,.id = NULL)
 write.csv(write_list, "CSV/three_layers_rprop_plus.csv")
 
+
 }
 
+if(TRUE){
+
+total_index = 1:nrow(data)
+dinam_index = 1:nrow(data)
+
+index_test = NULL
+index_train = NULL
+
+sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+
+for (l in 1:num_tests){
+    index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
+    index_train = setdiff(total_index,index_test)
+    results = red_neuronal(data, index_test, index_train, c(1, 8, 1))
+    dinam_index = setdiff(dinam_index, index_test)       
+    sum_metrics = sum_metrics + results    
+    print(typeof(results))
+}
+
+#print(sum_metrics)
+average = sum_metrics / num_tests
+
+cat("Layers: (", 1, ")") 
+layers= paste("",1, sep="")  
+print(average)
+
+}
