@@ -26,7 +26,7 @@ decision_tree = function(method, type, dataset){
     f = as.formula(paste("tep ~", paste(n[!n %in% "tep"], collapse = " + ")))
 
     folds = createFolds(dataset$tep, k = 5)
-    print(folds)
+    #print(folds)
 
     cvDecisionTree = lapply(folds, function(x){
         training_fold = dataset[-x, ]
@@ -39,7 +39,7 @@ decision_tree = function(method, type, dataset){
         y_pred = predict(classifier, newdata = test_fold[,c(1:29)], type = type)
 
         c_matrix = table(test_fold$tep, y_pred)
-        print(c_matrix)        
+        #print(c_matrix)        
         TP = c_matrix[2,2]
         TN = c_matrix[1,1]
         FN = c_matrix[2,1]
@@ -60,11 +60,19 @@ decision_tree = function(method, type, dataset){
         return(result)
     })    
 
-    print(cvDecisionTree)
+    return(cvDecisionTree)
 }
 
 print("Class: ")
-decision_tree("class", "class", dataset)
+results = decision_tree("class", "class", dataset)
+sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+
+for (result in results){
+    sum_metrics = sum_metrics + result            
+}
+
+average = sum_metrics / 5
+print(average)
 
 
 
