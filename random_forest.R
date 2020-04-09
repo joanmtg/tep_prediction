@@ -5,6 +5,7 @@
 library(randomForest)
 library(caTools)
 library(caret)
+library(plyr)
 
 setwd("/home/joan/Desktop/Tesis/tep_prediction")
 dataset = read.csv("data_tep.csv")
@@ -64,15 +65,24 @@ random_forest = function(ntree, dataset){
     return(cvRandomForest)
 }
 
+averages = list()
+
 for (i in seq(50, 3000, by=50)){
-    print(i)
-    results = random_forest(i, dataset)
+    ntree = i
+    results = random_forest(ntree, dataset)
     sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
 
     for (result in results){
         sum_metrics = sum_metrics + result            
     }
+    
+    average = sum_metrics / 5   
+    print(average) 
 
-    average = sum_metrics / 5
-    print(average)
+    average[[length(average)+1]] = ntree
+    averages[[length(averages)+1]] = list(average)
+    
 }
+
+write_list = plyr::adply(averages,1,unlist,.id = NULL)
+write.csv(write_list, "CSV/random_forest_reduced_2.csv")

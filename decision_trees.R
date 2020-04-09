@@ -5,6 +5,7 @@
 library(rpart)
 library(caTools)
 library(caret)
+library(plyr)
 
 setwd("/home/joan/Desktop/Tesis/tep_prediction")
 dataset = read.csv("data_tep.csv")
@@ -63,6 +64,7 @@ decision_tree = function(method, type, dataset){
     return(cvDecisionTree)
 }
 
+averages = list()
 print("Class: ")
 results = decision_tree("class", "class", dataset)
 sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
@@ -72,7 +74,13 @@ for (result in results){
 }
 
 average = sum_metrics / 5
+
+average[[length(average)+1]] = "Class"
+averages[[length(averages)+1]] = list(average)
+
 print(average)
 
+write_list = plyr::adply(averages,1,unlist,.id = NULL)
+write.csv(write_list, "CSV/decision_trees.csv")
 
 

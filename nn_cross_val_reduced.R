@@ -15,14 +15,14 @@ limit_layer_2 = 20
 limit_layer_3 = 20
 
 setwd("/home/joan/Desktop/Tesis/tep_prediction")
-data = read.table("data_tep_reduced.csv", header = T, sep=",")
+data = read.table("data_tep_reduced_2.csv", header = T, sep=",")
 
 #Progress bar
 pbar <- create_progress_bar('text')
 pbar$init(num_tests)
 
 
-red_neuronal = function(data, test, train, h_layers) {
+red_neuronal = function(data, test, train, h_layers, algorithm) {
 
     max = apply(data , 2 , max)
     min = apply(data, 2 , min)
@@ -42,13 +42,13 @@ red_neuronal = function(data, test, train, h_layers) {
                     data          = trainNN,
                     hidden        = h_layers,
                     threshold     = 0.03,  
-                    algorithm     = "rprop+",
+                    algorithm     = algorithm,
                     act.fct       = "logistic",
                     rep=3 
     )
     #plot(NN)
 
-    predict_testNN = compute(NN, testNN[,c(1:7)])    
+    predict_testNN = compute(NN, testNN[,c(1:8)])    
     tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
     tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
 
@@ -72,7 +72,7 @@ red_neuronal = function(data, test, train, h_layers) {
                   recall = recall,
                   f1 = f1)
 
-    print(table(tep.real, tep.predict))
+    #print(table(tep.real, tep.predict))
     #print(f1(tep.real, tep.predict))
 
     pbar$step()
@@ -81,7 +81,7 @@ red_neuronal = function(data, test, train, h_layers) {
 
 }
 
-if(TRUE){
+if(FALSE){
 
 averages_1_layer = list()
 
@@ -208,30 +208,58 @@ write.csv(write_list, "CSV/three_layers_rprop_plus.csv")
 
 }
 
+
+
 if(TRUE){
 
-total_index = 1:nrow(data)
-dinam_index = 1:nrow(data)
+# test_list = list(list(algorithm="sag", topology=c(1,8,1)), 
+#                 list(algorithm="sag", topology=c(12,7)),
+#                 list(algorithm="rprop-", topology=c(1)),
+#                 list(algorithm="rprop-", topology=c(3,4,2)),
+#                 list(algorithm="rprop+", topology=c(1,8,4)),
+#                 list(algorithm="sag", topology=c(1)),
+#                 list(algorithm="rprop+", topology=c(2,6)),
+#                 list(algorithm="rprop-", topology=c(1,3)),
+#                 list(algorithm="rprop+", topology=c(1)))
 
-index_test = NULL
-index_train = NULL
+#list_algorithms = list("sag", "sag", "rprop-", "rprop-", "rprop+", "sag", "rprop+", "rprop-", "rprop+")
+#list_topologys = list(list(1,8,1), list(12,7), list(1), list(3,4,2), list(1,8,4), list(1), list(2,6), list(1,3), list(1))
 
-sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+averages = list()
 
-for (l in 1:num_tests){
-    index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
-    index_train = setdiff(total_index,index_test)
-    results = red_neuronal(data, index_test, index_train, c(1, 8, 1))
-    dinam_index = setdiff(dinam_index, index_test)       
-    sum_metrics = sum_metrics + results    
-    print(typeof(results))
-}
+#for (i in 1:length(list_algorithms)){
+    #print("Hier")
+    #print(test['algorithm'])
 
-#print(sum_metrics)
-average = sum_metrics / num_tests
+    total_index = 1:nrow(data)
+    dinam_index = 1:nrow(data)
 
-cat("Layers: (", 1, ")") 
-layers= paste("",1, sep="")  
-print(average)
+    index_test = NULL
+    index_train = NULL
+
+    sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+
+    for (l in 1:num_tests){
+        index_test = sample(dinam_index, size = 0.2 * nrow(data), replace=FALSE)
+        index_train = setdiff(total_index,index_test)
+        results = red_neuronal(data, index_test, index_train, c(1), "rprop+")
+        dinam_index = setdiff(dinam_index, index_test)       
+        sum_metrics = sum_metrics + results    
+        #print(typeof(results))
+    }
+
+    #print(sum_metrics)
+    average = sum_metrics / num_tests
+
+    #cat("Layers: (", 1, ")") 
+    #layers= paste(test['algorithm'], "-", test['topology'], sep="")  
+    print(average)
+
+    #average[[length(average)+1]] = layers
+    averages[[length(averages)+1]] = list(average)
+#}
+
+write_list = plyr::adply(averages,1,unlist,.id = NULL)
+write.csv(write_list, "CSV/nn_reduced_9.csv")
 
 }

@@ -6,6 +6,7 @@ library(Metrics)
 library(e1071)
 library(caTools)
 library(caret)
+library(plyr)
 
 
 setwd("/home/joan/Desktop/Tesis/tep_prediction")
@@ -75,6 +76,7 @@ support_vector_machine = function(type, kernel, dataset, nu){
 types = c("C-classification", "nu-classification", "one-classification")
 kernels = c("linear", "polynomial", "radial", "sigmoid")
 
+averages = list()
 
 for (i in 1:length(types)){
     for (j in 1:length(kernels)){   
@@ -87,6 +89,15 @@ for (i in 1:length(types)){
         }
         
         average = sum_metrics / 5
-        print(average)
+        average = sum_metrics / 5   
+        print(average) 
+
+        test = paste("Type:" ,types[i], "Kernel:", kernels[j], sep = " ", collapse=NULL)
+
+        average[[length(average)+1]] = test
+        averages[[length(averages)+1]] = list(average)
     }
 }
+
+write_list = plyr::adply(averages,1,unlist,.id = NULL)
+write.csv(write_list, "CSV/svm_reduced_2.csv")
