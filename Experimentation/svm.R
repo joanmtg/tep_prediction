@@ -9,7 +9,7 @@ library(caret)
 library(plyr)
 
 
-setwd("/home/joan/Desktop/Tesis/tep_prediction")
+setwd("/home/joan/Desktop/Tesis/tep_prediction/Experimentation")
 dataset = read.csv("data_tep.csv")
 
 dataset$tep = factor(dataset$tep, levels = c("0", "1"), labels = c("0", "1"))

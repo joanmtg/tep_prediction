@@ -7,10 +7,10 @@ library(neuralnet)
 library(ggplot2)
 library(plyr)
 library(Metrics)
+#545, 225
+#set.seed(10)
 
-set.seed(111)
-
-setwd("/home/joan/Desktop/Tesis/tep_prediction")
+setwd("/home/joan/Desktop/Tesis/tep_prediction/Experimentation")
 data = read.table("data_tep.csv", header = T, sep=",")
 dim(data)
 #print(names(data))
@@ -38,17 +38,20 @@ dim(testNN)
 n = names(trainNN)
 f = as.formula(paste("tep ~", paste(n[!n %in% "tep"], collapse = " + ")))
 
-NN = neuralnet(f,
-                data          = trainNN,
-                hidden        = c(1,8,1),
-                threshold     = 0.03,  
-                algorithm     = "sag",
-                act.fct       = "logistic",
-                rep=3 
-)
-plot(NN)
+# NN = neuralnet(f,
+#                 data          = trainNN,
+#                 hidden        = c(1,8,1),
+#                 threshold     = 0.03,  
+#                 algorithm     = "sag",
+#                 act.fct       = "logistic",
+#                 rep=3 
+# )
+# plot(NN)
+load_model = readRDS("final_model_nn.rds")
+#print(load_model)
 
-predict_testNN = compute(NN, testNN[,c(1:29)])    
+predict_testNN = compute(load_model, testNN[,c(1:29)])   
+
 tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
 tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
 
@@ -56,8 +59,8 @@ tep.predict = ifelse(tep.predict > 0.5, 1, 0)
 
 datarealpred =cbind.data.frame(tep.predict,tep.real)
 
-#print("Prediction against real:")   
-#print(datarealpred)           
+print("Prediction against real:")   
+print(datarealpred)           
 
 accuracy =  accuracy(tep.real, tep.predict)
 auc = auc(tep.real, tep.predict)
@@ -72,8 +75,6 @@ result = c(accuracy = accuracy,
                 recall = recall,
                 f1 = f1)
 
-print(result)
+return(result)
 
-saveRDS(NN, "final_model_nn.rds")
-
-
+# saveRDS(NN, "final_model_nn.rds")
