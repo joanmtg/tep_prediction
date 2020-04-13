@@ -1,9 +1,13 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from .forms import PacienteForm
 
-#from .models import Question
 
+def index(request):    
+    if request.method == "POST":
+        form = PacienteForm(request.POST)
+        if form.is_valid():
+            form.save()                     
 
-def index(request):
-    #latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    #context = {'latest_question_list': latest_question_list}
-    return render(request, 'tep/index.html')
+    form = PacienteForm()
+    return render(request, 'tep/index.html', {'form':form})
