@@ -12,7 +12,10 @@
     {% endblock %}
 
     {% block stylesheets %}
-        {% include 'adminlte/lib/_styles.html' %}
+        {% include 'adminlte/lib/_styles.html' %}        
+        <!-- jsGrid -->
+        <link rel="stylesheet" href="{% static 'admin-lte/plugins/jsgrid/jsgrid.min.css' %}">
+        <link rel="stylesheet" href="{% static 'admin-lte/plugins/jsgrid/jsgrid-theme.min.css' %}">        
     {% endblock %}
 
     {% block extra_head %}{% endblock %}
@@ -26,7 +29,7 @@
         {% endblock %}
 
         {% block nav_sidebar %}
-            {% include 'adminlte/lib/_main_sidebar.html' %}
+            {% include '_main_sidebar.html' %}
         {% endblock %}
 
         {% block content_wrapper %}
@@ -53,7 +56,7 @@
             {% block content_outer %}
             <section class="content">
                 {% block messages %}
-                    {% include 'adminlte/lib/_messages.html' %}
+                    {% include '_messages.html' %}
                 {% endblock %}
 
                 {% block content_block_wrap %}
