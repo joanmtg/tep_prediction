@@ -3,11 +3,25 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Predicción de TEP
+    Diagnóstico de TEP
 {% endblock %}
 
 {% block content %}
-  
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"><b>Registro de datos Médicos</b></h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button type="submit">Diagnosticar</button>
+      </form>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
 {% endblock %}
 
 {% block nav_footer %}

@@ -3,7 +3,14 @@
 {% block nav_links %}
 
 <li class="nav-item">
-    <a href="#" class="nav-link">
+    <a href="{% url 'registro_paciente' %}" class="nav-link">
+        <i class="nav-icon fas fa-user-plus"></i> 
+        <p>Registrar Paciente</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{% url 'datos_medicos' %}" class="nav-link">
         <i class="nav-icon fas fa-stethoscope"></i> 
         <p>Realizar Diagnóstico TEP</p>
     </a>
