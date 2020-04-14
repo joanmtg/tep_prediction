@@ -7,7 +7,59 @@
 {% endblock %}
 
 {% block content %}
-  
+
+<div class="container-fluid">
+  <!-- Small boxes (Stat box) -->
+  <div class="row">
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <!-- <a href="{% url 'registro_paciente' %}"> -->
+        <div class="inner">
+          <h3>44</h3>
+
+          <p>Registro de pacientes</p>
+        </div>
+        <!-- </a> -->
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+        <a href="{% url 'registro_paciente' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>  
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3>150</h3>
+
+          <p>Realizar diagnósticos</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-stethoscope"></i>
+        </div>
+        <a href="{% url 'datos_medicos' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3>53<sup style="font-size: 20px"></sup></h3>
+
+          <p>Histórico de diagnósticos</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-history"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->    
+  </div>
+
 {% endblock %}
 
 {% block nav_footer %}

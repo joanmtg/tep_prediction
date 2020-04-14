@@ -40,7 +40,7 @@ class DiagnosticoForm(forms.ModelForm):
                 'plt',
                 'derrame'
         ]
-    """ def __init__(self, *args, **kwargs): 
+"""     def __init__(self, *args, **kwargs): 
         super(DiagnosticoForm, self).__init__(*args, **kwargs)                       
         self.fields['genero'].disabled = True
         self.fields['edad'].disabled = True """

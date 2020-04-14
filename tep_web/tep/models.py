@@ -19,12 +19,13 @@ class Paciente(models.Model):
     def __str__(self):
         return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula    
     
+    @property
     def edad(self):
         return int((datetime.now().date() - self.fecha_nacimiento).days / 365.25)
 
     @property
     def genero(self):
-        return self.sexo,
+        return self.sexo
     
     
 

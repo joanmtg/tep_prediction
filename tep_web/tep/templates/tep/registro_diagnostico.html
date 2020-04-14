@@ -37,9 +37,21 @@
 {% block javascript %}
 {{ block.super }}
 <script>
-    $('id_paciente').change(function(){
-      $('id_genero').val('1')
-      $('id_edad').val(23)      
-    })
+    $('#div_id_genero').attr('hidden','')
+    $('#div_id_edad').attr('hidden','')
+
+    $('#id_paciente').change(function(){
+      console.log('Cambia');         
+      
+      $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/tep/paciente/' +  $(this).children("option:selected").val(),
+            success: function(data) {
+              document.getElementById('id_genero').value = data['sexo']
+              $('#id_edad').attr('value', data['edad']);  
+            }
+      });
+    });
 </script>
 {% endblock %}
