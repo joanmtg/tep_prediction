@@ -9,6 +9,7 @@ def registro_paciente(request):
     if request.method == "POST":
         form = PacienteForm(request.POST)
         if form.is_valid():
+            print('VALID')
             form.save()                     
 
     form = PacienteForm()

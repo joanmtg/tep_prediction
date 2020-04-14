@@ -1,21 +1,37 @@
 from django.db import models
 from django.core.validators import RegexValidator
+from datetime import datetime
 
 numeric = RegexValidator(r'^[0-9]*$', 'Sólo valores numéricos permitidos.')
 
 # Create your models here.
 class Paciente(models.Model):
-    cedula = models.CharField(unique=True, max_length=10, validators=[numeric])
+    OP_GENERO = (
+        (0,'Femenino'),
+        (1,'Masculino'),
+    )
+    cedula = models.CharField(unique=True, max_length=10, validators=[numeric], verbose_name='cédula')
     nombres = models.CharField(max_length=30)
-    apellidos = models.CharField(max_length=30)    
+    apellidos = models.CharField(max_length=30)
+    sexo = models.IntegerField(choices=OP_GENERO)
+    fecha_nacimiento = models.DateField(verbose_name='Fecha de nacimiento')            
 
     def __str__(self):
-        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula
+        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula    
+    
+    def edad(self):
+        return int((datetime.now().date() - self.fecha_nacimiento).days / 365.25)
+
+    @property
+    def genero(self):
+        return self.sexo,
+    
+    
 
 class Diagnostico(models.Model):
     OP_GENERO = (
-        ('0','Femenino'),
-        ('1','Masculino'),
+        (0,'Femenino'),
+        (1,'Masculino'),
     )
 
     OP_FREC_RESPIRATORIA = (
@@ -97,9 +113,9 @@ class Diagnostico(models.Model):
     OP_SOPLOS = (
         (0, 'NO'),
         (1, 'TRICUSPIDEO'),
-        (2, 'AORTICO'),
+        (2, 'AÓRTICO'),
         (3, 'PULMONAR'),
-        (4, 'TRICUSPIDEO Y AORTICO'),
+        (4, 'TRICUSPIDEO Y AÓRTICO'),
         (5, 'TODOS'),
     )
 
@@ -108,10 +124,10 @@ class Diagnostico(models.Model):
         (1, 'IZQUIERDO'),
         (2, 'DERECHO'),
         (3, 'BILATERAL'),        
-    )
+    )    
     
-
-    genero = models.CharField(max_length=1, choices=OP_GENERO, verbose_name='Sexo')
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    genero = models.IntegerField(choices=OP_GENERO, verbose_name='Sexo')    
     edad = models.IntegerField()
     bebedor = models.BooleanField()
     fumador = models.BooleanField()
@@ -141,8 +157,7 @@ class Diagnostico(models.Model):
     plt = models.IntegerField(choices=OP_PLT, verbose_name='Conteo de plaquetas (PLT)')
     derrame = models.IntegerField(choices=OP_DERRAME)
     
-    diagnostico_nn = models.BooleanField(blank=True, verbose_name='Diagnóstico Redes Neuronales')
-    diagnostico_svm = models.BooleanField(blank=True, verbose_name='Diagnóstico SVM')
-    diagnostico_random_forest = models.BooleanField(blank=True, verbose_name='Diagnóstico Random Forest')
-    fecha = models.DateTimeField(auto_now_add=True)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    diagnostico_nn = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Redes Neuronales')
+    diagnostico_svm = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico SVM')
+    diagnostico_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Random Forest')
+    fecha = models.DateTimeField(auto_now_add=True)    

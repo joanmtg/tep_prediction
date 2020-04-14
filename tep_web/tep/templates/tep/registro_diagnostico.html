@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="card col-lg-10 offset-lg-1">
+  <div class="card col-lg-8 offset-lg-2">
     <div class="card-header">
       <h3 class="card-title"><b>Registro de datos Médicos</b></h3>
     </div>
@@ -32,4 +32,14 @@
       <b>Version</b> 1.0.0
     </div>
   </footer>
-{% endblock%}
+{% endblock %}
+
+{% block javascript %}
+{{ block.super }}
+<script>
+    $('id_paciente').change(function(){
+      $('id_genero').val('1')
+      $('id_edad').val(23)      
+    })
+</script>
+{% endblock %}
