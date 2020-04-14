@@ -9,5 +9,34 @@ class PacienteForm(forms.ModelForm):
 class DiagnosticoForm(forms.ModelForm):
     class Meta:
         model = Diagnostico
-        fields = '__all__'
-        exclude = ('diagnostico_nn', 'diagnostico_svm', 'diagnostico_random_forest')
+        fields = ['paciente',
+                'genero',
+                'edad',
+                'bebedor',
+                'fumador',
+                'otra_enfermedad',
+                'procedimiento_15dias',
+                'inmovilidad_inferior',
+                'viaje_prolongado',
+                'antecedentes_tep',
+                'malignidad',
+                'disnea',
+                'dolor_toracico',
+                'tos',
+                'hemoptisis',
+                'disautonomicos',
+                'edema_inferior',
+                'fiebre',
+                'crepitos',
+                'sibilancias',
+                'frec_respiratoria',
+                'so2',
+                'frec_cardiaca',
+                'pr_sistolica',
+                'pr_diastolica',
+                'soplos',
+                'wbc',
+                'hb',
+                'plt',
+                'derrame'
+        ]

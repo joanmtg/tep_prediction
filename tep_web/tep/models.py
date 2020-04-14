@@ -1,13 +1,16 @@
 from django.db import models
+from django.core.validators import RegexValidator
+
+numeric = RegexValidator(r'^[0-9]*$', 'Sólo valores numéricos permitidos.')
 
 # Create your models here.
 class Paciente(models.Model):
-    cedula = models.CharField(unique=True, max_length=10)
+    cedula = models.CharField(unique=True, max_length=10, validators=[numeric])
     nombres = models.CharField(max_length=30)
     apellidos = models.CharField(max_length=30)    
 
     def __str__(self):
-        return self.nombres + ' ' + self.apellidos
+        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula
 
 class Diagnostico(models.Model):
     OP_GENERO = (
@@ -108,38 +111,38 @@ class Diagnostico(models.Model):
     )
     
 
-    genero = models.CharField(max_length=1, choices=OP_GENERO,)
+    genero = models.CharField(max_length=1, choices=OP_GENERO, verbose_name='Sexo')
     edad = models.IntegerField()
     bebedor = models.BooleanField()
     fumador = models.BooleanField()
     otra_enfermedad = models.BooleanField()
-    procedimiento_15dias = models.BooleanField()
-    inmovilidad_inferior = models.BooleanField()
+    procedimiento_15dias = models.BooleanField(verbose_name='Procedimiento Quirúrgico o Traumatismo grave en los últimos 15 días')
+    inmovilidad_inferior = models.BooleanField(verbose_name='Inmovilidad en miembro inferior')
     viaje_prolongado = models.BooleanField()
-    antecedentes_tep = models.BooleanField()
+    antecedentes_tep = models.BooleanField(verbose_name='Antecedentes de tromboembolismo pulmonar (TEP/TVP)')
     malignidad = models.BooleanField()
     disnea = models.BooleanField()
-    dolor_toracico = models.BooleanField()
+    dolor_toracico = models.BooleanField(verbose_name='Dolor torácico')
     tos = models.BooleanField()
     hemoptisis = models.BooleanField()
-    disautonomicos = models.BooleanField()
+    disautonomicos = models.BooleanField(verbose_name='Disautonomía')
     edema_inferior = models.BooleanField()
-    frec_respiratoria = models.IntegerField(choices=OP_FREC_RESPIRATORIA)
-    so2 = models.IntegerField(choices=OP_S02)
-    frec_cardiaca = models.IntegerField(choices=OP_FREC_CARDIACA)
-    pr_sistolica = models.IntegerField(choices=OP_PR_SISTOLICA)
-    pr_diastolica = models.IntegerField(choices=OP_PR_DIASTOLICA)
+    frec_respiratoria = models.IntegerField(choices=OP_FREC_RESPIRATORIA, verbose_name='Frecuencia respiratoria')
+    so2 = models.IntegerField(choices=OP_S02, verbose_name='Saturación de oxígeno en sangre (SO2)')
+    frec_cardiaca = models.IntegerField(choices=OP_FREC_CARDIACA, verbose_name='Frecuencia cardiaca')
+    pr_sistolica = models.IntegerField(choices=OP_PR_SISTOLICA, verbose_name='Presión sistólica')
+    pr_diastolica = models.IntegerField(choices=OP_PR_DIASTOLICA, verbose_name='Presión diastólica')
     fiebre = models.BooleanField()
-    crepitos = models.BooleanField()
+    crepitos = models.BooleanField(verbose_name='Crepitaciones')
     sibilancias = models.BooleanField()
     soplos = models.IntegerField(choices=OP_SOPLOS)
-    wbc = models.IntegerField(choices=OP_WBC)    
-    hb = models.IntegerField(choices=OP_HB)
-    plt = models.IntegerField(choices=OP_PLT)
+    wbc = models.IntegerField(choices=OP_WBC, verbose_name='Conteo de glóbulos blancos (WBC)')    
+    hb = models.IntegerField(choices=OP_HB, verbose_name='Hemoglobina (HB)')
+    plt = models.IntegerField(choices=OP_PLT, verbose_name='Conteo de plaquetas (PLT)')
     derrame = models.IntegerField(choices=OP_DERRAME)
     
-    diagnostico_nn = models.BooleanField(blank=True)
-    diagnostico_svm = models.BooleanField(blank=True)
-    diagnostico_random_forest = models.BooleanField(blank=True)
+    diagnostico_nn = models.BooleanField(blank=True, verbose_name='Diagnóstico Redes Neuronales')
+    diagnostico_svm = models.BooleanField(blank=True, verbose_name='Diagnóstico SVM')
+    diagnostico_random_forest = models.BooleanField(blank=True, verbose_name='Diagnóstico Random Forest')
     fecha = models.DateTimeField(auto_now_add=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
