@@ -16,12 +16,12 @@
       <form method="post">
         {% csrf_token %}
         {{form|crispy}}
-        <button type="submit">Guardar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
       </form>
     </div>
     <!-- /.card-body -->
   </div>
-  <!-- /.card -->
+  <!-- /.card -->  
 {% endblock %}
 
 {% block nav_footer %}

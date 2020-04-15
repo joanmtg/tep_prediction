@@ -129,3 +129,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CSV_AND_SCRIPTS_FOLDER = os.path.join(BASE_DIR, 'tep/csv_scripts/')

@@ -7,10 +7,14 @@ library(neuralnet)
 library(ggplot2)
 library(plyr)
 library(Metrics)
+
+#wd = commandArgs(trailingOnly = TRUE)
+
+
 #545, 225
 #set.seed(10)
-
-setwd("/home/joan/Desktop/Tesis/tep_prediction/tep_web/tep/CSV")
+#setwd(wd)
+setwd("/home/joan/Desktop/Tesis/tep_prediction/tep_web/tep/csv_scripts")
 data = read.table("data_tep.csv", header = T, sep=",")
 dim(data)
 #print(names(data))
@@ -57,6 +61,7 @@ tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$
 #tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
 
 result = ifelse(tep.predict > 0.5, 1, 0)
+print(result)
 
 # datarealpred =cbind.data.frame(tep.predict,tep.real)
 
