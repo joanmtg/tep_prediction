@@ -13,7 +13,7 @@ csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
     'procedimiento_15dias','inmovilidad_inferior','viaje_prolongado','antecedentes_tep',
     'malignidad','disnea','dolor_toracico','tos','hemoptisis','disautonomicos','edema_inferior',
     'frec_respiratoria','so2','frec_cardiaca','pr_sistolica','pr_diastolica','fiebre','crepitos',
-    'sibilancias','soplos','wbc','hb','plt','derrame']    
+    'sibilancias','soplos','wbc','hb','plt','derrame', 'tep']    
 
 
 def crear_csv(datos_formulario, archivo):
@@ -27,6 +27,8 @@ def crear_csv(datos_formulario, archivo):
                 datos_formulario[0][key] = 1
             else:
                 datos_formulario[0][key] = 0
+    
+    datos_formulario[0]['tep'] = 0
     
     try:
         with open(archivo, 'w+') as csvfile:
@@ -46,6 +48,7 @@ def registro_paciente(request):
             print('VALID')
             form.save()    
             messages.success(request, "El paciente ha sido registrado correctamente")
+            form = PacienteForm()
             #return redirect('/paciente')
         else:
             messages.error(request, "Por favor verificar los campos en rojo") 
@@ -64,11 +67,17 @@ def datos_medicos(request):
             patient_dict = [form.cleaned_data]
             csv_creado = crear_csv(patient_dict, csv_file)
             
-            if csv_creado:
+            if not csv_creado:
                 result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict.R')
                 print("Predicción:",result[0][0][0])
 
-    form = DiagnosticoForm()
+                prediccion_NN = result[0][0][0] == 1.0                
+                messages.info(request, "Resultado de la predicción " + str(prediccion_NN))
+        else:
+            messages.error(request, "Por favor verificar los campos en rojo")
+    else:
+        form = DiagnosticoForm()
+    
     return render(request, 'tep/registro_diagnostico.html', {'form':form})
 
 
