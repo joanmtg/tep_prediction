@@ -43,5 +43,4 @@ class DiagnosticoForm(forms.ModelForm):
 """     def __init__(self, *args, **kwargs): 
         super(DiagnosticoForm, self).__init__(*args, **kwargs)                       
         self.fields['genero'].disabled = True
-        self.fields['edad'].disabled = True """
-    
+        self.fields['edad'].disabled = True """    

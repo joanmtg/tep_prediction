@@ -37,12 +37,22 @@
 {% block javascript %}
 {{ block.super }}
 <script>
-    $('#div_id_genero').attr('hidden','')
-    $('#div_id_edad').attr('hidden','')
+    var consulta_anonima = "{{anonimo}}";
+    anonimo = (consulta_anonima == 'True')    
 
-    $('#id_paciente').change(function(){
-      console.log('Cambia');         
-      
+    //console.log(anonimo);
+
+    if(anonimo){
+      console.log('Entra')
+      document.getElementById('id_paciente').value = 1;
+      $('#div_id_paciente').attr('hidden','');
+    }
+    else{
+      $('#div_id_genero').attr('hidden','');
+      $('#div_id_edad').attr('hidden','');      
+    }    
+
+    $('#id_paciente').change(function(){      
       $.ajax({
             type: 'GET',
             dataType: 'json',

@@ -11,12 +11,12 @@
 <div class="container-fluid">
   <!-- Small boxes (Stat box) -->
   <div class="row">
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-4 col-6 offset-lg-2">
       <!-- small box -->
       <div class="small-box bg-warning">
         <!-- <a href="{% url 'registro_paciente' %}"> -->
         <div class="inner">
-          <h3>44</h3>
+          <h3>Nuevo Paciente</h3>
 
           <p>Registro de pacientes</p>
         </div>
@@ -32,14 +32,26 @@
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>150</h3>
-
-          <p>Realizar diagnósticos</p>
+          <h3>Diagn. Paciente</h3>
+          <p>Realizar diagnóstico</p>
         </div>
         <div class="icon">
           <i class="fas fa-stethoscope"></i>
         </div>
-        <a href="{% url 'datos_medicos' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'datos_medicos' consulta_anonima=0 %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-4 col-6 offset-lg-2">
+      <!-- small box -->
+      <div class="small-box bg-info">
+        <div class="inner">
+          <h3>Diagn. Anónimo</h3>
+          <p>Diagnóstico anónimo</p>
+        </div>
+        <div class="icon">
+          <i class="fas fa-user-secret"></i>
+        </div>
+        <a href="{% url 'datos_medicos' consulta_anonima=1 %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -47,7 +59,7 @@
       <!-- small box -->
       <div class="small-box bg-success">
         <div class="inner">
-          <h3>53<sup style="font-size: 20px"></sup></h3>
+          <h3>Histórico<sup style="font-size: 20px"></sup></h3>
 
           <p>Histórico de diagnósticos</p>
         </div>

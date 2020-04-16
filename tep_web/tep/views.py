@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from .forms import PacienteForm, DiagnosticoForm
-from .models import Paciente
+from .models import Paciente, Diagnostico
 import csv, os
 import rpy2.robjects as robjects
 from rpy2.robjects import r
@@ -45,7 +45,7 @@ def registro_paciente(request):
     if request.method == "POST":
         form = PacienteForm(request.POST)
         if form.is_valid():
-            print('VALID')
+            #print('VALID')
             form.save()    
             messages.success(request, "El paciente ha sido registrado correctamente")
             form = PacienteForm()
@@ -58,11 +58,14 @@ def registro_paciente(request):
 
     return render(request, 'tep/registro_paciente.html', {'form':form})
 
-def datos_medicos(request): 
+def datos_medicos(request, consulta_anonima): 
+    anonimo = consulta_anonima == 1
+
     if request.method == "POST":
         form = DiagnosticoForm(request.POST)        
         if form.is_valid():
-            form.save()
+            if not anonimo:
+                form.save()
             csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
             patient_dict = [form.cleaned_data]
             csv_creado = crear_csv(patient_dict, csv_file)
@@ -70,16 +73,21 @@ def datos_medicos(request):
             if csv_creado:
                 result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict_NN.R')
                 print("Predicción:",result[0][0][0])
-
-                prediccion_NN = result[0][0][0] == 1.0                                
+                prediccion_NN = result[0][0][0] == 1.0  
+                if not anonimo:
+                    diagnostico = Diagnostico.objects.all().order_by('-pk')[0]
+                    #print(str(diagnostico.fecha))
+                    diagnostico.diagnostico_nn = prediccion_NN
+                    diagnostico.save()                
 
                 return render(request, 'tep/mostrar_resultados.html', {'prediccion_nn':prediccion_NN})
         else:
             messages.error(request, "Por favor verificar los campos en rojo")
+        print(form.errors)
     else:
         form = DiagnosticoForm()
     
-    return render(request, 'tep/registro_diagnostico.html', {'form':form})
+    return render(request, 'tep/registro_diagnostico.html', {'form':form, 'anonimo':anonimo})
 
 
 def get_datos_paciente(request, id_paciente):      
