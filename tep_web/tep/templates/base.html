@@ -69,7 +69,13 @@
         {% endblock content_wrapper %}
         
         {% block nav_footer %}
-            {% include 'adminlte/lib/_main_footer.html' %}
+            <footer class="main-footer">
+                <strong>Universidad del Valle 2020 <a href="http://www.univalle.edu.co">www.univalle.edu.co</a>.</strong>
+                TEP Prediction
+                <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+                </div>
+            </footer>
         {% endblock %}
 
     </div>

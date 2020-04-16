@@ -67,12 +67,13 @@ def datos_medicos(request):
             patient_dict = [form.cleaned_data]
             csv_creado = crear_csv(patient_dict, csv_file)
             
-            if not csv_creado:
+            if csv_creado:
                 result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict.R')
                 print("Predicción:",result[0][0][0])
 
-                prediccion_NN = result[0][0][0] == 1.0                
-                messages.info(request, "Resultado de la predicción " + str(prediccion_NN))
+                prediccion_NN = result[0][0][0] == 1.0                                
+
+                return render(request, 'tep/mostrar_resultados.html', {'prediccion_nn':prediccion_NN})
         else:
             messages.error(request, "Por favor verificar los campos en rojo")
     else:
@@ -84,4 +85,4 @@ def datos_medicos(request):
 def get_datos_paciente(request, id_paciente):      
     if request.method == 'GET':            
         paciente = Paciente.objects.get(pk=id_paciente)
-        return JsonResponse({'sexo': paciente.sexo, 'edad':paciente.edad})
+        return JsonResponse({'sexo': paciente.sexo, 'edad':paciente.edad})    
