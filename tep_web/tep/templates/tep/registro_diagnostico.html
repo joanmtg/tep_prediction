@@ -42,15 +42,10 @@
 
     //console.log(anonimo);
 
-    if(anonimo){
-      console.log('Entra')
-      document.getElementById('id_paciente').value = 1;
-      $('#div_id_paciente').attr('hidden','');
-    }
-    else{
+    if(!anonimo){
       $('#div_id_genero').attr('hidden','');
-      $('#div_id_edad').attr('hidden','');      
-    }    
+      $('#div_id_edad').attr('hidden','');  
+    }   
 
     $('#id_paciente').change(function(){      
       $.ajax({

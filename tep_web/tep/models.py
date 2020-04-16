@@ -129,7 +129,7 @@ class Diagnostico(models.Model):
     
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
     genero = models.IntegerField(choices=OP_GENERO, verbose_name='Sexo')    
-    edad = models.IntegerField()
+    edad = models.PositiveIntegerField()
     bebedor = models.BooleanField()
     fumador = models.BooleanField()
     otra_enfermedad = models.BooleanField()
@@ -161,4 +161,7 @@ class Diagnostico(models.Model):
     diagnostico_nn = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Redes Neuronales')
     diagnostico_svm = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico SVM')
     diagnostico_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Random Forest')
-    fecha = models.DateTimeField(auto_now_add=True)    
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.edad)   

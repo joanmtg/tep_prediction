@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
-from .forms import PacienteForm, DiagnosticoForm
+from .forms import PacienteForm, DiagnosticoForm, DiagnosticoAnonimoForm
 from .models import Paciente, Diagnostico
 import csv, os
 import rpy2.robjects as robjects
@@ -18,7 +18,8 @@ csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
 
 def crear_csv(datos_formulario, archivo):
 
-    del datos_formulario[0]['paciente']            
+    if 'paciente' in datos_formulario[0]:    
+        del datos_formulario[0]['paciente']            
 
     for key in datos_formulario[0]:
         attribute = datos_formulario[0][key]
@@ -62,9 +63,14 @@ def datos_medicos(request, consulta_anonima):
     anonimo = consulta_anonima == 1
 
     if request.method == "POST":
-        form = DiagnosticoForm(request.POST)        
-        if form.is_valid():
-            if not anonimo:
+        form = DiagnosticoForm(request.POST)  
+
+        if anonimo:
+            form = DiagnosticoAnonimoForm(request.POST)
+            print(form)
+
+        if form.is_valid():            
+            if not anonimo:                
                 form.save()
             csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
             patient_dict = [form.cleaned_data]
@@ -75,8 +81,7 @@ def datos_medicos(request, consulta_anonima):
                 print("Predicción:",result[0][0][0])
                 prediccion_NN = result[0][0][0] == 1.0  
                 if not anonimo:
-                    diagnostico = Diagnostico.objects.all().order_by('-pk')[0]
-                    #print(str(diagnostico.fecha))
+                    diagnostico = Diagnostico.objects.all().order_by('-pk')[0]                    
                     diagnostico.diagnostico_nn = prediccion_NN
                     diagnostico.save()                
 
@@ -84,9 +89,11 @@ def datos_medicos(request, consulta_anonima):
         else:
             messages.error(request, "Por favor verificar los campos en rojo")
         print(form.errors)
-    else:
+    else:        
         form = DiagnosticoForm()
-    
+        if anonimo:
+            form = DiagnosticoAnonimoForm()
+
     return render(request, 'tep/registro_diagnostico.html', {'form':form, 'anonimo':anonimo})
 
 

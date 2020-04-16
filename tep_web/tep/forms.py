@@ -4,7 +4,8 @@ from .models import Paciente, Diagnostico
 class PacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
-        fields =  '__all__'
+        fields =  '__all__' 
+
 
 class DiagnosticoForm(forms.ModelForm):
     class Meta:
@@ -40,7 +41,11 @@ class DiagnosticoForm(forms.ModelForm):
                 'plt',
                 'derrame'
         ]
-"""     def __init__(self, *args, **kwargs): 
-        super(DiagnosticoForm, self).__init__(*args, **kwargs)                       
-        self.fields['genero'].disabled = True
-        self.fields['edad'].disabled = True """    
+
+
+class DiagnosticoAnonimoForm(DiagnosticoForm):
+    class Meta:
+        model = DiagnosticoForm.Meta.model
+        fields = DiagnosticoForm.Meta.fields
+        exclude = ['paciente']
+       
