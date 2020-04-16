@@ -68,7 +68,7 @@ def datos_medicos(request):
             csv_creado = crear_csv(patient_dict, csv_file)
             
             if csv_creado:
-                result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict.R')
+                result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict_NN.R')
                 print("Predicción:",result[0][0][0])
 
                 prediccion_NN = result[0][0][0] == 1.0                                
