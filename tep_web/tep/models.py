@@ -16,7 +16,7 @@ class Paciente(models.Model):
     nombres = models.CharField(max_length=30)
     apellidos = models.CharField(max_length=30)
     sexo = models.IntegerField(choices=OP_GENERO)
-    fecha_nacimiento = models.DateField(verbose_name='Fecha de nacimiento')            
+    fecha_nacimiento = models.DateField(verbose_name='Fecha de nacimiento (día/mes/año)', help_text='Ejemplo: 22/10/1996')
 
     def __str__(self):
         return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula    

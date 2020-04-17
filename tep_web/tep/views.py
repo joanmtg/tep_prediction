@@ -4,12 +4,13 @@ from django.contrib import messages
 from django.core import serializers
 from .forms import PacienteForm, DiagnosticoForm, DiagnosticoAnonimoForm
 from .models import Paciente, Diagnostico
-import csv, os
+import csv, os, json
 import rpy2.robjects as robjects
 from rpy2.robjects import r
 from tep_web.settings import CSV_AND_SCRIPTS_FOLDER
 from django.db.models import Prefetch
-
+import pytz
+from tzlocal import get_localzone
 
 csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
     'procedimiento_15dias','inmovilidad_inferior','viaje_prolongado','antecedentes_tep',
@@ -108,17 +109,23 @@ def get_datos_paciente(request, id_paciente):
 
         return JsonResponse({'paciente': get_paciente}) 
 
-def cargar_pacientes(request):
-    if request.method == 'GET':
-        pacientes = Paciente.objects.all()
-        data = serializers.serialize('json', pacientes)
-        return HttpResponse(data, content_type="application/json")
-
-def cargar_diagnosticos(request):
-    if request.method == 'GET':
-        diagnosticos = Diagnostico.objects.all() 
-        data = serializers.serialize('json', diagnosticos)
-        return HttpResponse(data, content_type="application/json")
 
 def historico_diagnosticos(request):
-    return render(request, 'tep/historico_diagnosticos.html')
+
+    diagnosticos = Diagnostico.objects.values('id', 'paciente', 'diagnostico_nn', 'fecha').order_by('-id')        
+    process_data = list(diagnosticos)    
+    data_diagnosticos = list()
+        
+    for diagnostico in process_data:            
+        paciente = Paciente.objects.get(pk=diagnostico['paciente']) 
+        get_diagnostico = {'id_diagnostico': diagnostico['id'],
+                            'fecha' : diagnostico['fecha'].astimezone(get_localzone()).strftime("%m/%d/%Y, %H:%M:%S"),                          
+                            'cedula': paciente.cedula, 
+                            'nombres': paciente.nombres,
+                            'apellidos': paciente.apellidos,
+                            'sexo': 'Masculino' if paciente.sexo == 1 else 'Femenino',
+                            'edad': paciente.edad,
+                            'diagnostico_nn': 'SÍ' if diagnostico['diagnostico_nn'] else 'NO' }        
+        data_diagnosticos.append(get_diagnostico)
+
+    return render(request, 'tep/historico_diagnosticos.html', {'diagnosticos': json.dumps(data_diagnosticos)})

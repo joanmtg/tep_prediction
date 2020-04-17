@@ -16,6 +16,7 @@
         <!-- jsGrid -->
         <link rel="stylesheet" href="{% static 'admin-lte/plugins/jsgrid/jsgrid.min.css' %}">
         <link rel="stylesheet" href="{% static 'admin-lte/plugins/jsgrid/jsgrid-theme.min.css' %}">        
+        <link rel="stylesheet" href="{% static 'admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
     {% endblock %}
 
     {% block extra_head %}{% endblock %}
@@ -83,6 +84,8 @@
 
 {% block javascript %}
 {% include 'adminlte/lib/_scripts.html' %}
+<script src="{% static 'admin-lte/plugins/datatables/jquery.dataTables.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
 <script>
     setTimeout(function() {
         $('.alert').fadeOut('slow');
