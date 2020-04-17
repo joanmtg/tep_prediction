@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core import serializers
-from .forms import PacienteForm, DiagnosticoForm, DiagnosticoAnonimoForm
+from .forms import PacienteForm, DiagnosticoForm, DiagnosticoAnonimoForm, ActualizarPacienteForm
 from .models import Paciente, Diagnostico
 import csv, os, json
 import rpy2.robjects as robjects
@@ -60,7 +60,27 @@ def registro_paciente(request):
     else:   
         form = PacienteForm()
 
-    return render(request, 'tep/registro_paciente.html', {'form':form})
+    return render(request, 'tep/registro_paciente.html', {'form':form, 'update':False})
+
+
+def actualizar_paciente(request, id_paciente):    
+
+    if request.method == "POST":
+        paciente = Paciente.objects.get(pk=id_paciente)
+        form = ActualizarPacienteForm(request.POST, instance=paciente)
+        if form.is_valid():
+            form.save()    
+            messages.success(request, "El paciente ha sido registrado correctamente")
+            form = ActualizarPacienteForm()
+        else:
+            messages.error(request, "Por favor verificar los campos en rojo") 
+        print(form.errors)
+    else:
+        paciente = Paciente.objects.get(pk=id_paciente)
+        form = ActualizarPacienteForm(instance=paciente)
+
+    return render(request, 'tep/registro_paciente.html', {'form':form, 'update':False})
+
 
 def datos_medicos(request, consulta_anonima): 
     anonimo = consulta_anonima == 1
@@ -112,7 +132,7 @@ def get_datos_paciente(request, id_paciente):
 
 def historico_diagnosticos(request):
 
-    diagnosticos = Diagnostico.objects.values('id', 'paciente', 'diagnostico_nn', 'fecha').order_by('-id')        
+    diagnosticos = Diagnostico.objects.values('id', 'paciente', 'diagnostico_nn', 'fecha', 'edad', 'genero').order_by('-id')
     process_data = list(diagnosticos)    
     data_diagnosticos = list()
         
@@ -123,8 +143,8 @@ def historico_diagnosticos(request):
                             'cedula': paciente.cedula, 
                             'nombres': paciente.nombres,
                             'apellidos': paciente.apellidos,
-                            'sexo': 'Masculino' if paciente.sexo == 1 else 'Femenino',
-                            'edad': paciente.edad,
+                            'sexo': 'Masculino' if diagnostico['genero'] == 1 else 'Femenino',
+                            'edad': diagnostico['edad'],
                             'diagnostico_nn': 'SÍ' if diagnostico['diagnostico_nn'] else 'NO' }        
         data_diagnosticos.append(get_diagnostico)
 

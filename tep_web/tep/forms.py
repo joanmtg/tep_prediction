@@ -6,6 +6,10 @@ class PacienteForm(forms.ModelForm):
         model = Paciente
         fields =  '__all__' 
 
+class ActualizarPacienteForm(forms.ModelForm):
+    class Meta:
+        model = Paciente
+        fields=['nombres', 'apellidos', 'sexo', 'fecha_nacimiento']
 
 class DiagnosticoForm(forms.ModelForm):
     class Meta:
