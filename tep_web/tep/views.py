@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
+from django.core import serializers
 from .forms import PacienteForm, DiagnosticoForm, DiagnosticoAnonimoForm
 from .models import Paciente, Diagnostico
 import csv, os
 import rpy2.robjects as robjects
 from rpy2.robjects import r
 from tep_web.settings import CSV_AND_SCRIPTS_FOLDER
+from django.db.models import Prefetch
 
 
 csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
@@ -100,4 +102,23 @@ def datos_medicos(request, consulta_anonima):
 def get_datos_paciente(request, id_paciente):      
     if request.method == 'GET':            
         paciente = Paciente.objects.get(pk=id_paciente)
-        return JsonResponse({'sexo': paciente.sexo, 'edad':paciente.edad})    
+        get_paciente = {'cedula': paciente.cedula, 'nombres': paciente.nombres,
+                        'apellidos': paciente.apellidos, 'sexo': paciente.sexo,
+                        'edad': paciente.edad}
+
+        return JsonResponse({'paciente': get_paciente}) 
+
+def cargar_pacientes(request):
+    if request.method == 'GET':
+        pacientes = Paciente.objects.all()
+        data = serializers.serialize('json', pacientes)
+        return HttpResponse(data, content_type="application/json")
+
+def cargar_diagnosticos(request):
+    if request.method == 'GET':
+        diagnosticos = Diagnostico.objects.all() 
+        data = serializers.serialize('json', diagnosticos)
+        return HttpResponse(data, content_type="application/json")
+
+def historico_diagnosticos(request):
+    return render(request, 'tep/historico_diagnosticos.html')

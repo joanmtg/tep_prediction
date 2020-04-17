@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from datetime import datetime
+import pytz
+from tzlocal import get_localzone
 
 numeric = RegexValidator(r'^[0-9]*$', 'Sólo valores numéricos permitidos.')
 
@@ -163,5 +165,5 @@ class Diagnostico(models.Model):
     diagnostico_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Random Forest')
     fecha = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return str(self.edad)   
+"""  def __str__(self):
+        return str(self.paciente) + ' - '+ self.fecha.astimezone(get_localzone()).strftime("%m/%d/%Y, %H:%M:%S") """
