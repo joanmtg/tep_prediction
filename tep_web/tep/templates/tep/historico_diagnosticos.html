@@ -36,7 +36,7 @@
     data = []       
 
     var table = $('#tabla_diagnosticos').DataTable( {
-        data: data_diagnosticos,
+        data: data_diagnosticos,        
         columns: [
             { title: "Num. Diagnóstico", data:'id_diagnostico' },
             { title: "Fecha y Hora", data:'fecha'},
@@ -45,9 +45,14 @@
             { title: "Apellidos", data:'apellidos' },
             { title: "Sexo", data:'sexo' },
             { title: "Edad", data: 'edad' },
-            { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'}
-        ]
+            { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'}            
+        ],
+        buttons:['copy', 'excel', 'pdf']
     } );
+
+    table.buttons().container()
+    .appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
+
   } );
 
 </script>

@@ -38,25 +38,37 @@
 {{ block.super }}
 <script>
     var consulta_anonima = "{{anonimo}}";
-    anonimo = (consulta_anonima == 'True')    
-
-    //console.log(anonimo);
+    anonimo = (consulta_anonima == 'True')
 
     if(!anonimo){
       $('#div_id_genero').attr('hidden','');
       $('#div_id_edad').attr('hidden','');  
     }   
 
-    $('#id_paciente').change(function(){      
+    $('#id_paciente').change(function(){    
+      var id_paciente = $(this).children("option:selected").val();
+      setInfoPaciente(id_paciente);
+    });
+
+    var id_paciente = "{{id_paciente}}"
+    
+    if (id_paciente != '0'){
+      document.getElementById('id_paciente').value = id_paciente;
+      //$('#id_paciente').attr('readonly','');
+      $('#id_paciente option:not(:selected)').attr('disabled',true);  
+      setInfoPaciente(id_paciente);
+    }
+
+    function setInfoPaciente(id_paciente){
       $.ajax({
             type: 'GET',
             dataType: 'json',
-            url: '/tep/paciente/' +  $(this).children("option:selected").val(),
+            url: '/tep/paciente/' + id_paciente,
             success: function(data) {
               document.getElementById('id_genero').value = data['paciente']['sexo']
               $('#id_edad').attr('value', data['paciente']['edad']);  
             }
       });
-    });
+    }
 </script>
 {% endblock %}

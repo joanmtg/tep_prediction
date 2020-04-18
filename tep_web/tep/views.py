@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.core import serializers
@@ -49,18 +49,16 @@ def registro_paciente(request):
     if request.method == "POST":
         form = PacienteForm(request.POST)
         if form.is_valid():
-            #print('VALID')
-            form.save()    
-            messages.success(request, "El paciente ha sido registrado correctamente")
-            form = PacienteForm()
-            #return redirect('/paciente')
+            paciente = form.save()    
+            messages.success(request, "El paciente ha sido registrado correctamente. Ingrese sus datos médicos")
+            return redirect(reverse('datos_medicos', args=[0, paciente.pk]))
         else:
             messages.error(request, "Por favor verificar los campos en rojo") 
-        print(form.errors)
+            print(form.errors)
     else:   
         form = PacienteForm()
 
-    return render(request, 'tep/registro_paciente.html', {'form':form, 'update':False})
+    return render(request, 'tep/registro_paciente.html', {'form':form})
 
 
 def actualizar_paciente(request, id_paciente):    
@@ -70,30 +68,31 @@ def actualizar_paciente(request, id_paciente):
         form = ActualizarPacienteForm(request.POST, instance=paciente)
         if form.is_valid():
             form.save()    
-            messages.success(request, "El paciente ha sido registrado correctamente")
+            messages.success(request, "El paciente ha sido actualizado correctamente")
             form = ActualizarPacienteForm()
         else:
             messages.error(request, "Por favor verificar los campos en rojo") 
-        print(form.errors)
+            print(form.errors)
     else:
         paciente = Paciente.objects.get(pk=id_paciente)
         form = ActualizarPacienteForm(instance=paciente)
 
-    return render(request, 'tep/registro_paciente.html', {'form':form, 'update':False})
+    return render(request, 'tep/registro_paciente.html', {'form':form})
 
 
-def datos_medicos(request, consulta_anonima): 
+def datos_medicos(request, consulta_anonima, id_paciente): 
     anonimo = consulta_anonima == 1
+    cargar_paciente = id_paciente != 0
 
     if request.method == "POST":
-        form = DiagnosticoForm(request.POST)  
-
         if anonimo:
             form = DiagnosticoAnonimoForm(request.POST)
-            print(form)
+        else:
+            form = DiagnosticoForm(request.POST)
 
-        if form.is_valid():            
-            if not anonimo:                
+        if form.is_valid():  
+            print(form)        
+            if not anonimo:     
                 form.save()
             csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
             patient_dict = [form.cleaned_data]
@@ -108,16 +107,20 @@ def datos_medicos(request, consulta_anonima):
                     diagnostico.diagnostico_nn = prediccion_NN
                     diagnostico.save()                
 
-                return render(request, 'tep/mostrar_resultados.html', {'prediccion_nn':prediccion_NN})
+                return render(request, 'tep/mostrar_resultados.html', {'prediccion_nn':prediccion_NN,
+                                                                    'id_paciente': id_paciente})
         else:
-            messages.error(request, "Por favor verificar los campos en rojo")
-        print(form.errors)
+            if not cargar_paciente:
+                messages.error(request, "Por favor verificar los campos en rojo")
+                print(form.errors)
     else:        
-        form = DiagnosticoForm()
         if anonimo:
             form = DiagnosticoAnonimoForm()
+        else:
+            form = DiagnosticoForm()
 
-    return render(request, 'tep/registro_diagnostico.html', {'form':form, 'anonimo':anonimo})
+    return render(request, 'tep/registro_diagnostico.html', {'form':form, 'anonimo':anonimo,
+                                                            'id_paciente':id_paciente})
 
 
 def get_datos_paciente(request, id_paciente):      
