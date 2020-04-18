@@ -55,7 +55,8 @@
     if (id_paciente != '0'){
       document.getElementById('id_paciente').value = id_paciente;
       //$('#id_paciente').attr('readonly','');
-      $('#id_paciente option:not(:selected)').attr('disabled',true);  
+      $('#id_paciente option:not(:selected)').attr('disabled',true);
+      $('#id_paciente option:not(:selected)').attr('hidden',true);
       setInfoPaciente(id_paciente);
     }
 
