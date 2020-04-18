@@ -90,9 +90,11 @@ def datos_medicos(request, consulta_anonima, id_paciente):
             form = DiagnosticoForm(request.POST)
 
         if form.is_valid():  
-            print(form)        
+            nombre_paciente = 'Anónimo'              
             if not anonimo:     
-                form.save()
+                form.save()                         
+                nombre_paciente = str(form.cleaned_data['paciente'])
+
             csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
             patient_dict = [form.cleaned_data]
             csv_creado = crear_csv(patient_dict, csv_file)
@@ -107,7 +109,8 @@ def datos_medicos(request, consulta_anonima, id_paciente):
                     diagnostico.save()                
 
                 return render(request, 'tep/mostrar_resultados.html', {'prediccion_nn':prediccion_NN,
-                                                                    'id_paciente': id_paciente})
+                                                                    'id_paciente': id_paciente,
+                                                                    'nombre_paciente': nombre_paciente})
         else:
             if not cargar_paciente:
                 messages.error(request, "Por favor verificar los campos en rojo")

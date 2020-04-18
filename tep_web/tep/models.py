@@ -28,6 +28,10 @@ class Paciente(models.Model):
     @property
     def genero(self):
         return self.sexo
+        
+    @property
+    def info_basica(self):
+        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula   
     
     
 
