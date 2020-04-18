@@ -24,11 +24,26 @@
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="{% url 'registro_paciente' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'registro_paciente' %}" class="small-box-footer">Seleccionar <i class="fas fa-arrow-circle-right"></i></a>
       </div>
-    </div>  
-    <!-- ./col -->
+    </div>
     <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <!-- <a href="{% url 'registro_paciente' %}"> -->
+        <div class="inner">
+          <h3>Lista de Pacientes</h3>          
+          <p>Pacientes registrados</p>
+        </div>
+        <!-- </a> -->
+        <div class="icon">
+          <i class="fas fa-book-medical"></i>
+        </div>
+        <a href="{% url 'lista_pacientes' %}" class="small-box-footer">Seleccionar <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>    
+    <!-- ./col -->
+    <div class="col-lg-4 col-6 offset-lg-2">
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
@@ -38,10 +53,10 @@
         <div class="icon">
           <i class="fas fa-stethoscope"></i>
         </div>
-        <a href="{% url 'datos_medicos' consulta_anonima=0 id_paciente=0 %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'datos_medicos' consulta_anonima=0 id_paciente=0 %}" class="small-box-footer">Seleccionar <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
-    <div class="col-lg-4 col-6 offset-lg-2">
+    <div class="col-lg-4 col-6">
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
@@ -51,11 +66,11 @@
         <div class="icon">
           <i class="fas fa-user-secret"></i>
         </div>
-        <a href="{% url 'datos_medicos' consulta_anonima=1 id_paciente=0 %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'datos_medicos' consulta_anonima=1 id_paciente=0 %}" class="small-box-footer">Seleccionar <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-4 col-6">
+    <div class="col-lg-4 col-6 offset-lg-2">
       <!-- small box -->
       <div class="small-box bg-success">
         <div class="inner">
@@ -66,7 +81,7 @@
         <div class="icon">
           <i class="fas fa-history"></i>
         </div>
-        <a href="{% url 'historico_diagnosticos' %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'historico_diagnosticos' %}" class="small-box-footer">Seleccionar <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->    
