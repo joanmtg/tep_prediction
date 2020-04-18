@@ -12,10 +12,10 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Histórico de Diagnósticos</h3>
+        <h2 class="card-title">Listado de pacientes</h2>
       </div>
       <div class="card-body">
-        <table id="tabla_diagnosticos" class="table table-bordered table-hover">
+        <table id="tabla_pacientes" class="table table-bordered table-hover">
         </table>
       </div>
     </div>    
@@ -30,24 +30,21 @@
 
   
   $(document).ready(function() {
-    var data_diagnosticos = JSON.parse("{{ diagnosticos | escapejs }}");
+    var data_pacientes = JSON.parse("{{ pacientes | escapejs }}");
 
-    console.log(data_diagnosticos)
-    data = []       
-
-    var table = $('#tabla_diagnosticos').DataTable( {
-        data: data_diagnosticos,        
+    console.log(data_pacientes);
+    var table = $('#tabla_pacientes').DataTable( {
+        data: data_pacientes,        
         columns: [
-            { title: "Num. Diagnóstico", data:'id_diagnostico' },
-            { title: "Fecha y Hora", data:'fecha'},
+            { title: 'No. Paciente', data: 'id'},
             { title: "Cédula", data:'cedula' },
             { title: "Nombres", data:'nombres' },
             { title: "Apellidos", data:'apellidos' },
             { title: "Sexo", data:'sexo' },
-            { title: "Edad", data: 'edad' },
-            { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'}            
-        ]
+            { title: "Fecha de nacimiento", data: 'fecha_nacimiento' }                    
+        ]        
     } );
+
   } );
 
 </script>

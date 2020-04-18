@@ -18,7 +18,6 @@ csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
     'frec_respiratoria','so2','frec_cardiaca','pr_sistolica','pr_diastolica','fiebre','crepitos',
     'sibilancias','soplos','wbc','hb','plt','derrame', 'tep']    
 
-
 def crear_csv(datos_formulario, archivo):
 
     if 'paciente' in datos_formulario[0]:    
@@ -152,3 +151,20 @@ def historico_diagnosticos(request):
         data_diagnosticos.append(get_diagnostico)
 
     return render(request, 'tep/historico_diagnosticos.html', {'diagnosticos': json.dumps(data_diagnosticos)})
+
+def lista_pacientes(request):    
+    pacientes = Paciente.objects.values('pk', 'cedula', 'nombres', 'apellidos',
+                                        'sexo', 'fecha_nacimiento')    
+    list_pacientes = list(pacientes)
+    print(len(list_pacientes))
+    data = list()
+
+    for paciente in list_pacientes:
+        data.append({'id':paciente['pk'],
+                    'cedula': paciente['cedula'], 
+                    'nombres': paciente['nombres'],
+                    'apellidos': paciente['apellidos'],
+                    'sexo': 'Masculino' if paciente['sexo'] == 1 else 'Femenino',
+                    'fecha_nacimiento': paciente['fecha_nacimiento'].strftime("%m/%d/%Y")})      
+                
+    return render(request, 'tep/lista_pacientes.html', {'pacientes': json.dumps(data)})
