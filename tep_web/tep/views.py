@@ -171,3 +171,6 @@ def lista_pacientes(request):
                     'fecha_nacimiento': paciente['fecha_nacimiento'].strftime("%m/%d/%Y")})      
                 
     return render(request, 'tep/lista_pacientes.html', {'pacientes': json.dumps(data)})
+
+def diagnostico_masivo(request):
+    return render(request, 'tep/diagnostico_masivo.html')

@@ -46,7 +46,20 @@
             { title: "Sexo", data:'sexo' },
             { title: "Edad", data: 'edad' },
             { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'}            
-        ]
+        ],        
+        columnDefs: [
+              {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+              }
+          ],
+        select: {
+            'style': 'multi'
+        },
+        order: [[1, 'asc']]  
+
     } );
   } );
 

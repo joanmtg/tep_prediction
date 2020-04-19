@@ -10,4 +10,6 @@ urlpatterns = [
     path('historico_diagnosticos', views.historico_diagnosticos, name='historico_diagnosticos'),
     path('paciente/update/<int:id_paciente>', views.actualizar_paciente,name='actualizar_paciente'),
     path('pacientes', views.lista_pacientes, name='lista_pacientes'),
+    path('diagnostico_masivo', views.diagnostico_masivo, name='diagnostico_masivo'),
+
 ]
