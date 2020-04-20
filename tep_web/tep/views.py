@@ -173,4 +173,67 @@ def lista_pacientes(request):
     return render(request, 'tep/lista_pacientes.html', {'pacientes': json.dumps(data)})
 
 def diagnostico_masivo(request):
-    return render(request, 'tep/diagnostico_masivo.html')
+    fields_dict = ['id','value']
+    fields_select = ['genero',                
+                'frec_respiratoria',
+                'so2',
+                'frec_cardiaca',]
+        #         'pr_sistolica',
+        #         'pr_diastolica',
+        #         'soplos',
+        #         'wbc',
+        #         'hb',
+        #         'plt',
+        #         'derrame'
+        # ]
+
+    fields_boolean = ['bebedor',
+                'fumador',
+                'otra_enfermedad',
+                'procedimiento_15dias',]
+                # 'inmovilidad_inferior',
+                # 'viaje_prolongado',
+                # 'antecedentes_tep',
+                # 'malignidad',
+                # 'disnea',
+                # 'dolor_toracico',
+                # 'tos',
+                # 'hemoptisis',
+                # 'disautonomicos',
+                # 'edema_inferior',
+                # 'fiebre',
+                # 'crepitos',
+                # 'sibilancias']
+    
+    fields = Diagnostico._meta.get_fields()
+    lista_atributos = list()
+
+    for field in fields:
+        if field.name in fields_boolean:
+            field_data = {'name':field.name,
+                          'title': field.verbose_name.capitalize(),
+                          'type': 'checkbox',
+                          'valueField': 'id',
+                          'textField': 'value'
+            }
+            lista_atributos.append(field_data)
+
+    """ for field in fields:
+        if field.name in fields_select:
+            choices_fields = [dict(zip(fields_dict, d)) for d in field.choices]
+
+            field_data = {'name':field.name,
+                          'title': field.verbose_name.capitalize(),
+                          'type': 'select',
+                          'items': choices_fields,                          
+                          'valueField': 'id',
+                          'textField': 'value',
+                          'validate': 'required'
+
+            }
+            lista_atributos.append(field_data)     """      
+
+    print(lista_atributos)
+
+    #dicts = [dict(zip(fields, d)) for d in choices]
+    return render(request, 'tep/diagnostico_masivo.html',{'lista_atributos': json.dumps(lista_atributos)})
