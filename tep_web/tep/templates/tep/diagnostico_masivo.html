@@ -10,7 +10,7 @@
 
 <div class="card">
     <div class="card-header">
-      <h3 class="card-title">jsGrid</h3>
+      <h3 class="card-title">Diagnóstico masivo </h3>
     </div>
     <!-- /.card-header -->
     <div class="card-body">
@@ -30,11 +30,29 @@
     var atributosSelect = JSON.parse("{{ lista_atributos | escapejs }}");
     //console.log(atributosSelect);
 
-    atributosPrincipales = [
+    var atributosPrincipales = [
+            { type: "control"},
             { name: "Nombres", type: "text", width: 150, validate: "required" },
             { name: "Apellidos", type: "text", width: 150, validate: "required" },
-            { name: "Edad", type: "number", width: 80, validate: "required"}];
-    
+            { name: "Edad", type: "number", width: 80, validate: "required"}
+    ];
+        
+    var pacienteEjemplo = [
+        { "Nombres": "Joan Manuel",
+         "Apellidos": "Tovar Guzmán",
+         "Edad": 23,
+         "bebedor": true,
+         "fumador":false,
+         "otra_enfermedad":false,
+         "procedimiento_15dias":false,
+         "inmovilidad_inferior": true,
+         "viaje_prolongado":false,
+         "antecedentes_tep":true,
+         "malignidad":true,
+         "disnea":false},        
+    ];
+
+   
     var todosCampos = atributosPrincipales.concat(atributosSelect,[{type:'control'}]);
     console.log(todosCampos);    
  
@@ -47,7 +65,7 @@
         sorting: true,
         paging: true,
  
-        //data: [],
+        data: pacienteEjemplo,
  
         fields: todosCampos
     });

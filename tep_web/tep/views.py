@@ -190,12 +190,12 @@ def diagnostico_masivo(request):
     fields_boolean = ['bebedor',
                 'fumador',
                 'otra_enfermedad',
-                'procedimiento_15dias',]
-                # 'inmovilidad_inferior',
-                # 'viaje_prolongado',
-                # 'antecedentes_tep',
-                # 'malignidad',
-                # 'disnea',
+                'procedimiento_15dias',
+                'inmovilidad_inferior',
+                'viaje_prolongado',
+                'antecedentes_tep',
+                'malignidad',
+                'disnea',]
                 # 'dolor_toracico',
                 # 'tos',
                 # 'hemoptisis',
