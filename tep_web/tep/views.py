@@ -203,10 +203,34 @@ def diagnostico_masivo(request):
                 'edema_inferior',
                 'fiebre',
                 'crepitos',
-                'sibilancias']
+                'sibilancias']   
     
-    fields = Diagnostico._meta.get_fields()
     lista_atributos = list()
+
+    # Creación de choices con los pacientes existentes en la BD
+
+    pacientes = Paciente.objects.all()
+    anonimo = (0, "Paciente anónimo")
+    lista_pacientes = () + (anonimo,) 
+    
+    for paciente in pacientes:
+        paciente_choices = (paciente.id, str(paciente))
+        lista_pacientes += (paciente_choices,)      
+    
+    lista_atributos.append({'name': 'paciente',
+                           'title': 'Paciente',
+                           'type':'select',
+                           'items': [dict(zip(fields_dict, d)) for d in lista_pacientes],
+                           'width': '200',
+                           'valueField': 'id',
+                           'textField': 'value',
+                           'validate': 'required'                           
+    })
+
+    #Se obtienen los campos del modelo Diagnostico con sus propiedades respectivas
+    fields = Diagnostico._meta.get_fields()
+
+    # Se crean y agregan los campos booleanos a la lista de atributos
 
     for field in fields:
         if field.name in fields_boolean:
@@ -217,6 +241,8 @@ def diagnostico_masivo(request):
                           'textField': 'value'
             }
             lista_atributos.append(field_data)
+
+    # Se crean y agregan los campos categóricos a la lista de atributos
 
     for field in fields:
         if field.name in fields_select:
@@ -233,7 +259,5 @@ def diagnostico_masivo(request):
             }
             lista_atributos.append(field_data)
 
-    print(lista_atributos)
 
-    #dicts = [dict(zip(fields, d)) for d in choices]
     return render(request, 'tep/diagnostico_masivo.html',{'lista_atributos': json.dumps(lista_atributos)})
