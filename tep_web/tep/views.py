@@ -177,15 +177,15 @@ def diagnostico_masivo(request):
     fields_select = ['genero',                
                 'frec_respiratoria',
                 'so2',
-                'frec_cardiaca',]
-        #         'pr_sistolica',
-        #         'pr_diastolica',
-        #         'soplos',
-        #         'wbc',
-        #         'hb',
-        #         'plt',
-        #         'derrame'
-        # ]
+                'frec_cardiaca',
+                'pr_sistolica',
+                'pr_diastolica',
+                'soplos',
+                'wbc',
+                'hb',
+                'plt',
+                'derrame'
+        ]
 
     fields_boolean = ['bebedor',
                 'fumador',
@@ -195,15 +195,15 @@ def diagnostico_masivo(request):
                 'viaje_prolongado',
                 'antecedentes_tep',
                 'malignidad',
-                'disnea',]
-                # 'dolor_toracico',
-                # 'tos',
-                # 'hemoptisis',
-                # 'disautonomicos',
-                # 'edema_inferior',
-                # 'fiebre',
-                # 'crepitos',
-                # 'sibilancias']
+                'disnea',
+                'dolor_toracico',
+                'tos',
+                'hemoptisis',
+                'disautonomicos',
+                'edema_inferior',
+                'fiebre',
+                'crepitos',
+                'sibilancias']
     
     fields = Diagnostico._meta.get_fields()
     lista_atributos = list()
@@ -218,7 +218,7 @@ def diagnostico_masivo(request):
             }
             lista_atributos.append(field_data)
 
-    """ for field in fields:
+    for field in fields:
         if field.name in fields_select:
             choices_fields = [dict(zip(fields_dict, d)) for d in field.choices]
 
@@ -231,7 +231,7 @@ def diagnostico_masivo(request):
                           'validate': 'required'
 
             }
-            lista_atributos.append(field_data)     """      
+            lista_atributos.append(field_data)
 
     print(lista_atributos)
 
