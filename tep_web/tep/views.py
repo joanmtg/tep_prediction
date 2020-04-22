@@ -174,8 +174,7 @@ def lista_pacientes(request):
 
 def diagnostico_masivo(request):
     fields_dict = ['id','value']
-    fields_select = ['genero',                
-                'frec_respiratoria',
+    fields_select = ['frec_respiratoria',
                 'so2',
                 'frec_cardiaca',
                 'pr_sistolica',
@@ -218,16 +217,7 @@ def diagnostico_masivo(request):
         lista_pacientes += (paciente_choices,)          
     
     pacientes = [dict(zip(fields_dict, d)) for d in lista_pacientes]
-
-    """ lista_atributos.append({'name': 'paciente',
-                           'title': 'Paciente',
-                           'type':'select',
-                           'items': [dict(zip(fields_dict, d)) for d in lista_pacientes],
-                           'width': '200',
-                           'valueField': 'id',
-                           'textField': 'value',
-                           'validate': 'required'                           
-    }) """
+    
 
     #Se obtienen los campos del modelo Diagnostico con sus propiedades respectivas
     fields = Diagnostico._meta.get_fields()

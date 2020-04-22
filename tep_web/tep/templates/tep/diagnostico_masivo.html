@@ -14,7 +14,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-      <div id="jsGrid1"></div>
+      <div id="grid_pacientes"></div>
     </div>
     <!-- /.card-body -->
 </div>
@@ -27,6 +27,8 @@
 <script src="{% static 'admin-lte/plugins/jsgrid/jsgrid.min.js' %}"></script>
 <script>  
 
+    var indiceEdad = 3;
+    var indiceSexo = 4;
     var atributos = JSON.parse("{{ lista_atributos | escapejs }}");
     pacientes = JSON.parse("{{pacientes | escapejs }}");
 
@@ -38,46 +40,68 @@
                 type: "select",
                 items: pacientes,
                 insertTemplate: function () {
-                // Retrieve the DOM element
-                // Note: prototype.insertTemplate
-                console.log(this)
-                var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);                
-                var grid = this._grid;
-                //console.log(jsGrid.fields.number);
-                // Attach onchange listener !
-                $insertControl.change(function () {
-                    var selectedValue = $(this).val();                    
-                    grid.option('fields')[3].insertControl.val(23);
-                    alert(selectedValue);
-                });
+                  // Retrieve the DOM element
+                  // Note: prototype.insertTemplate              
+                  var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);                
+                  var grid = this._grid;
+                  //console.log(jsGrid.fields.number);
+                  // Attach onchange listener !
+                  $insertControl.change(function () {
+                      var pacienteSeleccionado = $(this).val(); 
+                      //Si el paciente no es anónimo, se cargan su edad y su sexo
+                      if (pacienteSeleccionado != 0){
+                        setInfoPaciente(pacienteSeleccionado, grid, 'insert');
+                      } else{
+                          grid.option('fields')[window.indiceEdad].insertControl.val(null);
+                          grid.option('fields')[window.indiceSexo].insertControl.val(0);
+                          grid.option('fields')[window.indiceSexo].insertControl.attr('disabled', false)
+                          grid.option('fields')[window.indiceEdad].insertControl.attr('disabled', false);
+                      }  
+                  });
 
-                return $insertControl;
-            },
-            editTemplate: function (value) {
-                // Retrieve the DOM element (select)
-                // Note: prototype.editTemplate
-                var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
+                  return $insertControl;
+                },
+                editTemplate: function (value) {
+                    // Retrieve the DOM element (select)
+                    // Note: prototype.editTemplate
+                    var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
+                    var grid = this._grid
+                    // Attach onchange listener !
+                    $editControl.change(function(){
+                        var pacienteSeleccionado = $(this).val(); 
+                        //Si el paciente no es anónimo, se cargan su edad y su sexo
+                        if (pacienteSeleccionado != 0){
+                          setInfoPaciente(pacienteSeleccionado, grid, 'edit');
+                        } else{
+                            grid.option('fields')[window.indiceEdad].editControl.val(null);
+                          grid.option('fields')[window.indiceSexo].editControl.val(0);
+                            grid.option('fields')[window.indiceSexo].editControl.attr('disabled', false)
+                            grid.option('fields')[window.indiceEdad].editControl.attr('disabled', false);
+                        }
+                    });
 
-                // Attach onchange listener !
-                $editControl.change(function(){
-                    var selectedValue = $(this).val();
-
-                    alert(selectedValue);
-                });
-
-                return $editControl;
-            },
+                    return $editControl;
+                },
                 width: "200",
                 valueField: "id",
                 textField: "value",
                 validate: "required"  },      
-            { name: "Edad", type: "number", width: 80, validate: "required"}
+            {name: "edad", title: "Edad", type: "number", width: 80, validate: "required"},
+            { name : "genero", 
+              title: "Sexo", 
+              type: "select", 
+              valueField: "id", 
+              textField: "value", 
+              validate: "required",
+              items: [{id:0, value: "Femenino"}, {id:1, value: "Masculino"}],                          
+            }
     ];
         
     var pacienteEjemplo = [      
         { "example":true, 
-          "paciente": 1,
-          "Edad": 23,
+          "paciente": 0,
+          "edad": 23,
+          "genero":1,  
           "bebedor": true,
           "fumador":false,
           "otra_enfermedad":false,
@@ -94,8 +118,7 @@
           "edema_inferior":false,
           "fiebre":true,
           "crepitos":true,
-          "sibilancias":false,
-          "genero":1,                
+          "sibilancias":false,              
           "frec_respiratoria":1,
           "so2":1,
           "frec_cardiaca":1,
@@ -109,10 +132,9 @@
     ];
 
    
-    var todosCampos = atributosPrincipales.concat(atributos,[{type:'control'}]);
-    console.log(todosCampos);    
+    var todosCampos = atributosPrincipales.concat(atributos,[{type:'control'}]);   
  
-    $("#jsGrid1").jsGrid({
+    $("#grid_pacientes").jsGrid({
         width: "100%",
         height: "600px",
  
@@ -124,51 +146,47 @@
         onItemEditing: function(args) {
           if(args.item.example) {
               args.cancel = true;
-            }
-        },
+          }       
+        },        
 
         onItemDeleting: function(args) {
           if(args.item.example) {
               args.cancel = true;
             }
-        },
- 
-        data: pacienteEjemplo,
- 
-        fields: todosCampos,
+        },        
 
-        insertTemplate: function () {
-                // Retrieve the DOM element
-                // Note: prototype.insertTemplate
-                var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
-
-                // Attach onchange listener !
-                $insertControl.change(function () {
-                    var selectedValue = $(this).val();
-
-                    alert(selectedValue);
-                });
-
-                return $insertControl;
-            },
-        editTemplate: function (value) {
-                // Retrieve the DOM element (select)
-                // Note: prototype.editTemplate
-                var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
-
-                // Attach onchange listener !
-                $editControl.change(function(){
-                    var selectedValue = $(this).val();
-
-                    alert(selectedValue);
-                });
-
-                return $editControl;
-        }
-        
+        data: pacienteEjemplo, 
+        fields: todosCampos          
     });
 
-    $("#jsGrid1").jsGrid("fieldOption", "example", "visible", false);
+    $("#grid_pacientes").jsGrid("fieldOption", "example", "visible", false); 
+
+    function setInfoPaciente(id_paciente, grid, control){
+      $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/tep/paciente/' + id_paciente,
+            success: function(data) {
+              var sexo = data['paciente']['sexo'];
+              var edad = data['paciente']['edad'];                           
+
+              if (control == "insert"){
+                grid.option('fields')[window.indiceSexo].insertControl.val(sexo);
+                grid.option('fields')[window.indiceEdad].insertControl.val(edad);
+                grid.option('fields')[window.indiceSexo].insertControl.attr('disabled', true)
+                grid.option('fields')[window.indiceEdad].insertControl.attr('disabled', true);
+                
+              }
+              else {
+                grid.option('fields')[window.indiceSexo].editControl.val(sexo);
+                grid.option('fields')[window.indiceEdad].editControl.val(edad);
+                grid.option('fields')[window.indiceSexo].editControl.attr('disabled', true)
+                grid.option('fields')[window.indiceEdad].editControl.attr('disabled', true);
+              }              
+            }
+      });
+    }
+
 </script>
 {% endblock %}
 
