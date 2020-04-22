@@ -27,12 +27,50 @@
 <script src="{% static 'admin-lte/plugins/jsgrid/jsgrid.min.js' %}"></script>
 <script>  
 
-    var atributosSelect = JSON.parse("{{ lista_atributos | escapejs }}");
-    //console.log(atributosSelect);
+    var atributos = JSON.parse("{{ lista_atributos | escapejs }}");
+    pacientes = JSON.parse("{{pacientes | escapejs }}");
 
     var atributosPrincipales = [
             { type: "control"},
-            { name: "example", type:"checkbox"},           
+            { name: "example", type:"checkbox"},
+            { name: "paciente",
+                title: "Paciente",
+                type: "select",
+                items: pacientes,
+                insertTemplate: function () {
+                // Retrieve the DOM element
+                // Note: prototype.insertTemplate
+                console.log(this)
+                var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);                
+                var grid = this._grid;
+                //console.log(jsGrid.fields.number);
+                // Attach onchange listener !
+                $insertControl.change(function () {
+                    var selectedValue = $(this).val();                    
+                    grid.option('fields')[3].insertControl.val(23);
+                    alert(selectedValue);
+                });
+
+                return $insertControl;
+            },
+            editTemplate: function (value) {
+                // Retrieve the DOM element (select)
+                // Note: prototype.editTemplate
+                var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
+
+                // Attach onchange listener !
+                $editControl.change(function(){
+                    var selectedValue = $(this).val();
+
+                    alert(selectedValue);
+                });
+
+                return $editControl;
+            },
+                width: "200",
+                valueField: "id",
+                textField: "value",
+                validate: "required"  },      
             { name: "Edad", type: "number", width: 80, validate: "required"}
     ];
         
@@ -56,22 +94,22 @@
           "edema_inferior":false,
           "fiebre":true,
           "crepitos":true,
-          "sibilancias":false}
-          // "genero",                
-          // "frec_respiratoria",
-          // "so2",
-          // "frec_cardiaca",
-          // "pr_sistolica",
-          // "pr_diastolica",
-          // "soplos",
-          // "wbc",
-          // "hb",
-          // "plt",
-          // "derrame"}     
+          "sibilancias":false,
+          "genero":1,                
+          "frec_respiratoria":1,
+          "so2":1,
+          "frec_cardiaca":1,
+          "pr_sistolica":1,
+          "pr_diastolica":1,
+          "soplos":1,
+          "wbc":1,
+          "hb":1,
+          "plt":1,
+          "derrame":1}     
     ];
 
    
-    var todosCampos = atributosPrincipales.concat(atributosSelect,[{type:'control'}]);
+    var todosCampos = atributosPrincipales.concat(atributos,[{type:'control'}]);
     console.log(todosCampos);    
  
     $("#jsGrid1").jsGrid({
@@ -97,7 +135,37 @@
  
         data: pacienteEjemplo,
  
-        fields: todosCampos
+        fields: todosCampos,
+
+        insertTemplate: function () {
+                // Retrieve the DOM element
+                // Note: prototype.insertTemplate
+                var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
+
+                // Attach onchange listener !
+                $insertControl.change(function () {
+                    var selectedValue = $(this).val();
+
+                    alert(selectedValue);
+                });
+
+                return $insertControl;
+            },
+        editTemplate: function (value) {
+                // Retrieve the DOM element (select)
+                // Note: prototype.editTemplate
+                var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
+
+                // Attach onchange listener !
+                $editControl.change(function(){
+                    var selectedValue = $(this).val();
+
+                    alert(selectedValue);
+                });
+
+                return $editControl;
+        }
+        
     });
 
     $("#jsGrid1").jsGrid("fieldOption", "example", "visible", false);

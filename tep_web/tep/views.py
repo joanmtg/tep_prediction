@@ -215,9 +215,11 @@ def diagnostico_masivo(request):
     
     for paciente in pacientes:
         paciente_choices = (paciente.id, str(paciente))
-        lista_pacientes += (paciente_choices,)      
+        lista_pacientes += (paciente_choices,)          
     
-    lista_atributos.append({'name': 'paciente',
+    pacientes = [dict(zip(fields_dict, d)) for d in lista_pacientes]
+
+    """ lista_atributos.append({'name': 'paciente',
                            'title': 'Paciente',
                            'type':'select',
                            'items': [dict(zip(fields_dict, d)) for d in lista_pacientes],
@@ -225,7 +227,7 @@ def diagnostico_masivo(request):
                            'valueField': 'id',
                            'textField': 'value',
                            'validate': 'required'                           
-    })
+    }) """
 
     #Se obtienen los campos del modelo Diagnostico con sus propiedades respectivas
     fields = Diagnostico._meta.get_fields()
@@ -260,4 +262,5 @@ def diagnostico_masivo(request):
             lista_atributos.append(field_data)
 
 
-    return render(request, 'tep/diagnostico_masivo.html',{'lista_atributos': json.dumps(lista_atributos)})
+    return render(request, 'tep/diagnostico_masivo.html',{'lista_atributos': json.dumps(lista_atributos),
+                                                         'pacientes': json.dumps(pacientes)})
