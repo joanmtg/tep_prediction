@@ -15,7 +15,11 @@
     <!-- /.card-header -->
     <div class="card-body">
       <div id="grid_pacientes"></div>
-    </div>
+      <form method="post">
+        {% csrf_token %}
+        <button id="btn_diagnosticar" type="submit" class="btn btn-primary">Diagnosticar</button>     
+      </form>      
+    </div>    
     <!-- /.card-body -->
 </div>
   <!-- /.card -->
@@ -26,6 +30,23 @@
 {{ block.super }}  
 <script src="{% static 'admin-lte/plugins/jsgrid/jsgrid.min.js' %}"></script>
 <script>  
+    $(document).ready(function(){
+      $('#btn_diagnosticar').click(function(e){
+         alert("Diagnosticando ...");
+         var pacientes = $("#grid_pacientes").jsGrid("option", "data");
+         console.log(pacientes);
+
+         $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: {'pacientes': pacientes},
+            url: '/tep/diagnostico_masivo',
+            success: function(data) {
+                console.log(data);
+            }
+      });
+     });
+    });
 
     var indiceEdad = 3;
     var indiceSexo = 4;
@@ -186,6 +207,7 @@
             }
       });
     }
+//});
 
 </script>
 {% endblock %}

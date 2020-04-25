@@ -11,6 +11,8 @@ from tep_web.settings import CSV_AND_SCRIPTS_FOLDER
 from django.db.models import Prefetch
 import pytz
 from tzlocal import get_localzone
+from django.views.decorators.csrf import csrf_protect
+
 
 csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
     'procedimiento_15dias','inmovilidad_inferior','viaje_prolongado','antecedentes_tep',
@@ -172,7 +174,7 @@ def lista_pacientes(request):
                 
     return render(request, 'tep/lista_pacientes.html', {'pacientes': json.dumps(data)})
 
-def diagnostico_masivo(request):
+def cargar_diagnostico_masivo(request):
     fields_dict = ['id','value']
     fields_select = ['frec_respiratoria',
                 'so2',
@@ -254,3 +256,13 @@ def diagnostico_masivo(request):
 
     return render(request, 'tep/diagnostico_masivo.html',{'lista_atributos': json.dumps(lista_atributos),
                                                          'pacientes': json.dumps(pacientes)})
+
+#@csrf_protect
+def diagnostico_masivo(request):
+
+    if request.method == 'POST':
+        pacientes = request.POST.get('pacientes[]')
+        print(pacientes)
+
+    return JsonResponse({'result':True})
+                                                
