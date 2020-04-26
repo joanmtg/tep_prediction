@@ -32,8 +32,16 @@
   $(document).ready(function() {
     var data_pacientes = JSON.parse("{{ pacientes | escapejs }}");
 
+    $('#tabla_pacientes').on('click', 'a.editor_edit', function (e) {
+        e.preventDefault();
+ 
+        var paciente = window.table.row($(this).closest('tr')).data();
+        window.open('/tep/paciente/update/'+paciente.id, "_top");
+
+    } );
+
     console.log(data_pacientes);
-    var table = $('#tabla_pacientes').DataTable( {
+    table = $('#tabla_pacientes').DataTable( {
         data: data_pacientes,        
         columns: [
             { title: 'No. Paciente', data: 'id'},
@@ -41,7 +49,12 @@
             { title: "Nombres", data:'nombres' },
             { title: "Apellidos", data:'apellidos' },
             { title: "Sexo", data:'sexo' },
-            { title: "Fecha de nacimiento", data: 'fecha_nacimiento' }                    
+            { title: "Fecha de nacimiento", data: 'fecha_nacimiento' },
+            {
+                data: null,
+                className: "center",
+                defaultContent: '<a href="" class="editor_edit">Editar</a>'
+            }                    
         ]        
     } );
 
