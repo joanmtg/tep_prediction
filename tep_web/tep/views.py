@@ -23,7 +23,8 @@ def crear_csv(datos_formulario, archivo):
     
     for datos in datos_formulario:
         datos['tep'] = 0
-        del datos['paciente']
+        if 'paciente' in datos:
+            del datos['paciente']
 
         for key in datos:
             attribute = datos[key]
