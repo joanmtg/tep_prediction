@@ -256,37 +256,49 @@ def cargar_diagnostico_multiple(request):
     return render(request, 'tep/diagnostico_multiple.html',{'lista_atributos': json.dumps(lista_atributos),
                                                          'pacientes': json.dumps(pacientes)})
 
-#@csrf_protect
 def diagnostico_multiple(request):
 
     if request.method == 'POST':
         load_diagnosticos = request.POST.getlist('pacientes')
         diagnosticos = json.loads(load_diagnosticos[0])        
 
+        #Se elimina el diagnostico de ejemplo de la lista
         diagnosticos.pop(0)
 
+        diagnosticos_pacientes = list()
+
+        #Se guardan los datos médicos en la base de datos
         for diagnostico in diagnosticos:            
             if diagnostico['paciente'] != 0:
-                diagnostico['paciente'] = Paciente.objects.get(pk=diagnostico['paciente'])
-                print(diagnostico)
+                diagnostico['paciente'] = Paciente.objects.get(pk=diagnostico['paciente'])                
                 diag_save = Diagnostico(**diagnostico)
-                #diagnostico['id'] = 
-                diag_save.save()           
-
-
+                diag_save.save()
+                diagnosticos_pacientes.append({'id_diagnostico': diag_save.id, 'paciente': diag_save.paciente})  
+            else:
+                diagnosticos_pacientes.append({'id_diagnostico': 0, 'paciente': 'Anónimo'})            
+        
         csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
         patient_dict = diagnosticos
         csv_creado = crear_csv(diagnosticos, csv_file)
+
+        for (diagnostico, diag_paciente) in zip(diagnosticos, diagnosticos_pacientes):
+            diagnostico['id_diagnostico'] = diag_paciente['id_diagnostico']
+            diagnostico['paciente'] = diag_paciente['paciente']
         
         if csv_creado:
             result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict_NN.R')
-            print("Predicción:",result)
-            """ prediccion_NN = result[0][0][0] == 1.0  
-            if not anonimo:
-                diagnostico = Diagnostico.objects.all().order_by('-pk')[0]                    
-                diagnostico.diagnostico_nn = prediccion_NN
-                diagnostico.save()  """
+            predicciones = result[0][0]
+            for (prediccion, diagnostico) in zip(predicciones, diagnosticos):
+                prediccion = prediccion == 1.0
+                diagnostico['prediccion'] = prediccion
 
+                id_diagnostico = diagnostico['id_diagnostico']
+                if id_diagnostico != 0:
+                    diagn_save = Diagnostico.objects.get(pk=id_diagnostico)          
+                    diagn_save.diagnostico_nn = prediccion
+                    diagn_save.save()
+
+        print(diagnosticos)
     
     return JsonResponse({'result':True})
                                                 
