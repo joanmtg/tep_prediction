@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "venv/bin/python",
+    "python.pythonPath": "ambiente_tep/bin/python",
 
     "python.linting.pylintArgs": [
         "--load-plugins=pylint-django"

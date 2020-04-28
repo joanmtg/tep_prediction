@@ -2,3 +2,5 @@
 *.pdf
 venv/
 .vscode
+ambiente_tep/
+*.cpython-37.pyc

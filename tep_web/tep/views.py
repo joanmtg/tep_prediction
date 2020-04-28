@@ -11,7 +11,6 @@ from tep_web.settings import CSV_AND_SCRIPTS_FOLDER
 from django.db.models import Prefetch
 import pytz
 from tzlocal import get_localzone
-from django.views.decorators.csrf import csrf_protect
 
 
 csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
@@ -20,21 +19,20 @@ csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
     'frec_respiratoria','so2','frec_cardiaca','pr_sistolica','pr_diastolica','fiebre','crepitos',
     'sibilancias','soplos','wbc','hb','plt','derrame', 'tep']    
 
-def crear_csv(datos_formulario, archivo):
-
-    if 'paciente' in datos_formulario[0]:    
-        del datos_formulario[0]['paciente']            
-
-    for key in datos_formulario[0]:
-        attribute = datos_formulario[0][key]
-        if isinstance(attribute,bool):
-            if attribute:
-                datos_formulario[0][key] = 1
-            else:
-                datos_formulario[0][key] = 0
+def crear_csv(datos_formulario, archivo):         
     
-    datos_formulario[0]['tep'] = 0
-    
+    for datos in datos_formulario:
+        datos['tep'] = 0
+        del datos['paciente']
+
+        for key in datos:
+            attribute = datos[key]
+            if isinstance(attribute,bool):
+                if attribute:
+                    datos[key] = 1
+                else:
+                    datos[key] = 0
+        
     try:
         with open(archivo, 'w+') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -174,7 +172,7 @@ def lista_pacientes(request):
                 
     return render(request, 'tep/lista_pacientes.html', {'pacientes': json.dumps(data)})
 
-def cargar_diagnostico_masivo(request):
+def cargar_diagnostico_multiple(request):
     fields_dict = ['id','value']
     fields_select = ['frec_respiratoria',
                 'so2',
@@ -254,15 +252,40 @@ def cargar_diagnostico_masivo(request):
             lista_atributos.append(field_data)
 
 
-    return render(request, 'tep/diagnostico_masivo.html',{'lista_atributos': json.dumps(lista_atributos),
+    return render(request, 'tep/diagnostico_multiple.html',{'lista_atributos': json.dumps(lista_atributos),
                                                          'pacientes': json.dumps(pacientes)})
 
 #@csrf_protect
-def diagnostico_masivo(request):
+def diagnostico_multiple(request):
 
     if request.method == 'POST':
-        pacientes = request.POST.get('pacientes[]')
-        print(pacientes)
+        load_diagnosticos = request.POST.getlist('pacientes')
+        diagnosticos = json.loads(load_diagnosticos[0])        
 
+        diagnosticos.pop(0)
+
+        for diagnostico in diagnosticos:            
+            if diagnostico['paciente'] != 0:
+                diagnostico['paciente'] = Paciente.objects.get(pk=diagnostico['paciente'])
+                print(diagnostico)
+                diag_save = Diagnostico(**diagnostico)
+                #diagnostico['id'] = 
+                diag_save.save()           
+
+
+        csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
+        patient_dict = diagnosticos
+        csv_creado = crear_csv(diagnosticos, csv_file)
+        
+        if csv_creado:
+            result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict_NN.R')
+            print("Predicción:",result)
+            """ prediccion_NN = result[0][0][0] == 1.0  
+            if not anonimo:
+                diagnostico = Diagnostico.objects.all().order_by('-pk')[0]                    
+                diagnostico.diagnostico_nn = prediccion_NN
+                diagnostico.save()  """
+
+    
     return JsonResponse({'result':True})
                                                 

@@ -10,8 +10,8 @@ urlpatterns = [
     path('historico_diagnosticos', views.historico_diagnosticos, name='historico_diagnosticos'),
     path('paciente/update/<int:id_paciente>', views.actualizar_paciente,name='actualizar_paciente'),
     path('pacientes', views.lista_pacientes, name='lista_pacientes'),
-    path('cargar_diagnostico_masivo', views.cargar_diagnostico_masivo, name='cargar_diagnostico_masivo'),
-    path('diagnostico_masivo', views.diagnostico_masivo, name='diagnostico_masivo'),
+    path('cargar_diagnostico_multiple', views.cargar_diagnostico_multiple, name='cargar_diagnostico_multiple'),
+    path('diagnostico_multiple', views.diagnostico_multiple, name='diagnostico_multiple'),
 
 
 ]
