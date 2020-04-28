@@ -31,9 +31,10 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'adminlte3',
     'tep.apps.TepConfig',
      # General use templates & template tags (should appear first)
-    'adminlte3', 
+    
      # Optional: Django admin theme (must be before django.contrib.admin)
     'adminlte3_theme',    
     'django.contrib.admin',
