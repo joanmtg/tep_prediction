@@ -307,4 +307,17 @@ def diagnostico_multiple(request):
         return JsonResponse({'diagnosticos': json.dumps(diagnosticos)})
         #return render(request, 'tep/resultados_diagnostico_multiple.html', {'diagnosticos': json.dumps(diagnosticos)})
 
-                                                
+def validacion_diagnosticos(request, cod_operacion):
+    
+    if request.method == 'POST':
+        load_diagnosticos = request.POST.getlist('diagnosticos')
+        ids_diagnosticos = json.loads(load_diagnosticos[0])
+        print('cod', cod_operacion)
+        print('ids', ids_diagnosticos)
+
+        for id_diag in ids_diagnosticos:
+            diagnostico = Diagnostico.objects.get(pk=id_diag)
+            diagnostico.aprobado = cod_operacion == 1
+            diagnostico.save()
+
+    return JsonResponse({'operacion': True})

@@ -165,8 +165,9 @@ class Diagnostico(models.Model):
     derrame = models.IntegerField(choices=OP_DERRAME)
     
     diagnostico_nn = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Redes Neuronales')
-    diagnostico_svm = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico SVM')
-    diagnostico_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Random Forest')
+    aprobado = models.BooleanField(blank= True, null=True, verbose_name='Aprobado')
+    #diagnostico_svm = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico SVM')
+    #diagnostico_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Random Forest')
     fecha = models.DateTimeField(auto_now_add=True)
 
 """  def __str__(self):

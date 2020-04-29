@@ -12,6 +12,6 @@ urlpatterns = [
     path('pacientes', views.lista_pacientes, name='lista_pacientes'),
     path('cargar_diagnostico_multiple', views.cargar_diagnostico_multiple, name='cargar_diagnostico_multiple'),
     path('diagnostico_multiple', views.diagnostico_multiple, name='diagnostico_multiple'),
-
+    path('validacion_diagnosticos/<int:cod_operacion>', views.validacion_diagnosticos, name='validacion_diagnosticos'),
 
 ]

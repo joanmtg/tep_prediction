@@ -15,8 +15,10 @@
         <h3 class="card-title">Histórico de Diagnósticos</h3>
       </div>
       <div class="card-body">
-        <table id="tabla_diagnosticos" class="table table-bordered table-hover">
+        <table id="tabla_diagnosticos" class="table table-bordered table-hover">        
         </table>
+        <button id="btn_aprobar" type="submit" class="btn btn-primary">Aprobar</button>
+        <button id="btn_desaprobar" type="submit" class="btn btn-primary">Desaprobar</button>
       </div>
     </div>    
   </div>
@@ -35,9 +37,11 @@
     console.log(data_diagnosticos)
     data = []       
 
-    var table = $('#tabla_diagnosticos').DataTable( {
-        data: data_diagnosticos,        
+    table = $('#tabla_diagnosticos').DataTable( {
+        data: data_diagnosticos,   
+        select: true,     
         columns: [
+            //{ title: "", data:null},
             { title: "Num. Diagnóstico", data:'id_diagnostico' },
             { title: "Fecha y Hora", data:'fecha'},
             { title: "Cédula", data:'cedula' },
@@ -46,7 +50,9 @@
             { title: "Sexo", data:'sexo' },
             { title: "Edad", data: 'edad' },
             { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'}            
-        ],        
+        ]       
+        
+        /* ,        
         columnDefs: [
               {
                 'targets': 0,
@@ -58,10 +64,38 @@
         select: {
             'style': 'multi'
         },
-        order: [[1, 'asc']]  
+        order: [[1, 'asc']]   */
 
     } );
+   
+    $('#btn_aprobar').click(function(e){
+      //validacionDiagnostico([18,19,20], "aprobar");      
+    });
+     $('#btn_desaprobar').click(function(e){ 
+      //validacionDiagnostico([18,19,20], "desaprobar");
+    });
   } );
+
+  function validacionDiagnostico(diagnosticos, operacion){
+
+    var mensaje = "Los diagnósticos seleccionados han sido aprobados"
+    if (operacion == "desaprobar"){
+      mensaje = "Los diagnósticos seleccionados han sido desaprobados";
+    }
+    var cod_operacion = (operacion == 'aprobar') ? 1 : 0;
+
+    $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: {'diagnosticos': JSON.stringify(diagnosticos),
+            'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            url: '/tep/validacion_diagnosticos/' + cod_operacion,
+            success: function(data) {
+              console.log(JSON.parse(data['operacion']))
+              alert(mensaje);
+            }
+    });
+  }
 
 </script>
 
