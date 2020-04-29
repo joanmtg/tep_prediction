@@ -10,12 +10,12 @@
 
 <div class="container-fluid">  
   <div class="row">
-    <div class="col-lg-6 col-6 offset-lg-3">              
+    <div class="col-lg-8 col-8 offset-lg-2">              
       {% if prediccion_nn %}
         <div class="small-box bg-warning">        
             <div class="inner">
-            <h3>TEP presente</h3>
-            <p>{{nombre_paciente}}</p>
+            <h3>El paciente ha sido diagnosticado con TEP</h3>
+            <h4>{{nombre_paciente}}</h4>
             </div>
             <!-- </a> -->
             <div class="icon">
@@ -25,8 +25,8 @@
       {% else %}
         <div class="small-box bg-info">        
             <div class="inner">
-            <h3>TEP ausente</h3>
-            <p>{{nombre_paciente}}</p>
+            <h3>Se descarta diagnóstico de TEP en paciente</h3>
+            <h4>{{nombre_paciente}}</h4>
             </div>
             <!-- </a> -->
             <div class="icon">
