@@ -7,20 +7,33 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="card">
-    <div class="card-header">
-      <h3 class="card-title">Diagnóstico masivo </h3>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Diagnóstico masivo </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div id="grid_pacientes"></div>
+          <button id="btn_diagnosticar" type="submit" class="btn btn-primary">Diagnosticar</button>                 
+        </div>    
     </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-      <div id="grid_pacientes"></div>
-      <button id="btn_diagnosticar" type="submit" class="btn btn-primary">Diagnosticar</button>     
-         
-    </div>    
-    <!-- /.card-body -->
+  </div>
 </div>
-  <!-- /.card -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Resultados</h3>
+      </div>
+      <div class="card-body">
+        <table id="tabla_resultados" class="table table-bordered table-hover">
+        </table>
+      </div>
+    </div>    
+  </div>
+</div>
 
 {% endblock %}
 
@@ -32,7 +45,7 @@
       $('#btn_diagnosticar').click(function(e){
          alert("Diagnosticando ...");
          var pacientes = $("#grid_pacientes").jsGrid("option", "data");
-         console.log(pacientes);
+         //console.log(pacientes);
 
          $.ajax({
             type: 'POST',
@@ -41,8 +54,8 @@
             'csrfmiddlewaretoken': '{{ csrf_token }}'},
             url: '/tep/diagnostico_multiple',
             success: function(data) {
-                console.log(data);
-                return false;
+                diagnosticos = JSON.parse(data['diagnosticos']);
+                llenarTablaResultados(diagnosticos);
             }
       });
      });
@@ -95,7 +108,7 @@
                           setInfoPaciente(pacienteSeleccionado, grid, 'edit');
                         } else{
                             grid.option('fields')[window.indiceEdad].editControl.val(null);
-                          grid.option('fields')[window.indiceSexo].editControl.val(0);
+                            grid.option('fields')[window.indiceSexo].editControl.val(0);
                             grid.option('fields')[window.indiceSexo].editControl.attr('disabled', false)
                             grid.option('fields')[window.indiceEdad].editControl.attr('disabled', false);
                         }
@@ -207,7 +220,23 @@
             }
       });
     }
-//});
+
+
+    function llenarTablaResultados(resultados){
+      console.log(resultados);
+
+      var table = $('#tabla_resultados').DataTable( {
+        data: resultados,        
+        columns: [
+            { title: "Num. Diagnóstico", data:'id_diagnostico' },
+            { title: "Paciente", data:'paciente' },
+            { title: "Sexo", data:'genero' },
+            { title: "Edad", data: 'edad' },
+            { title: "Diagnóstico Redes Neuronales", data: 'prediccion'}            
+        ],        
+      } );
+    }
+
 
 </script>
 {% endblock %}

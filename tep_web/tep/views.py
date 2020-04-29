@@ -265,6 +265,7 @@ def diagnostico_multiple(request):
         #Se elimina el diagnostico de ejemplo de la lista
         diagnosticos.pop(0)
 
+        #Lista para guardar temporalmente la relacion diagnosticos - pacientes
         diagnosticos_pacientes = list()
 
         #Se guardan los datos médicos en la base de datos
@@ -273,32 +274,37 @@ def diagnostico_multiple(request):
                 diagnostico['paciente'] = Paciente.objects.get(pk=diagnostico['paciente'])                
                 diag_save = Diagnostico(**diagnostico)
                 diag_save.save()
-                diagnosticos_pacientes.append({'id_diagnostico': diag_save.id, 'paciente': diag_save.paciente})  
+                diagnosticos_pacientes.append({'id_diagnostico': diag_save.id,
+                                                'paciente': str(diag_save.paciente)})  
             else:
-                diagnosticos_pacientes.append({'id_diagnostico': 0, 'paciente': 'Anónimo'})            
+                diagnosticos_pacientes.append({'id_diagnostico': 0,
+                                                'paciente': 'Anónimo'})            
         
+        #Se crea el csv con datos micos a ser utilizados por el script de predicción en R
         csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
         patient_dict = diagnosticos
         csv_creado = crear_csv(diagnosticos, csv_file)
-
+        
         for (diagnostico, diag_paciente) in zip(diagnosticos, diagnosticos_pacientes):
             diagnostico['id_diagnostico'] = diag_paciente['id_diagnostico']
             diagnostico['paciente'] = diag_paciente['paciente']
+            diagnostico['genero'] = 'Masculino' if diagnostico['genero'] == 1 else 'Femenino'
         
         if csv_creado:
             result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict_NN.R')
             predicciones = result[0][0]
             for (prediccion, diagnostico) in zip(predicciones, diagnosticos):
                 prediccion = prediccion == 1.0
-                diagnostico['prediccion'] = prediccion
+                diagnostico['prediccion'] = 'SÍ' if prediccion else 'NO'
 
                 id_diagnostico = diagnostico['id_diagnostico']
+                #Si no es un diagnostico anónimo, se guarda la predicción 
+                #correspondiente en la BD
                 if id_diagnostico != 0:
                     diagn_save = Diagnostico.objects.get(pk=id_diagnostico)          
                     diagn_save.diagnostico_nn = prediccion
-                    diagn_save.save()
+                    diagn_save.save()       
+        return JsonResponse({'diagnosticos': json.dumps(diagnosticos)})
+        #return render(request, 'tep/resultados_diagnostico_multiple.html', {'diagnosticos': json.dumps(diagnosticos)})
 
-        print(diagnosticos)
-    
-    return JsonResponse({'result':True})
                                                 

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Predicción de TEP
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Diagnóstico Múltiple</h3>
+      </div>
+      <div class="card-body">
+        <table id="tabla_diagnosticos" class="table table-bordered table-hover">
+        </table>
+      </div>
+    </div>    
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+  {{ block.super }}  
+<script>
+
+  
+  $(document).ready(function() {
+    var data_diagnosticos = JSON.parse("{{ diagnosticos | escapejs }}");
+
+    console.log(data_diagnosticos)
+    //data = []       
+
+    /* var table = $('#tabla_diagnosticos').DataTable( {
+        data: data_diagnosticos,        
+        columns: [
+            { title: "Num. Diagnóstico", data:'id_diagnostico' },
+            { title: "Fecha y Hora", data:'fecha'},
+            { title: "Cédula", data:'cedula' },
+            { title: "Nombres", data:'nombres' },
+            { title: "Apellidos", data:'apellidos' },
+            { title: "Sexo", data:'sexo' },
+            { title: "Edad", data: 'edad' },
+            { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'}            
+        ],        
+        columnDefs: [
+              {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+              }
+          ],
+        select: {
+            'style': 'multi'
+        },
+        order: [[1, 'asc']]  
+
+    } ); */
+  } );
+
+</script>
+
+{% endblock %}
