@@ -38,10 +38,9 @@
     data = []       
 
     table = $('#tabla_diagnosticos').DataTable( {
-        data: data_diagnosticos,   
-        select: true,     
+        data: data_diagnosticos,          
         columns: [
-            //{ title: "", data:null},
+            { title: "Seleccionar", defaultContent:''},
             { title: "Num. Diagnóstico", data:'id_diagnostico' },
             { title: "Fecha y Hora", data:'fecha'},
             { title: "Cédula", data:'cedula' },
@@ -49,30 +48,41 @@
             { title: "Apellidos", data:'apellidos' },
             { title: "Sexo", data:'sexo' },
             { title: "Edad", data: 'edad' },
-            { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'}            
-        ]       
-        
-        /* ,        
-        columnDefs: [
-              {
-                'targets': 0,
-                'checkboxes': {
-                    'selectRow': true
-                }
-              }
-          ],
+            { title: "Diagnóstico Redes Neuronales", data: 'diagnostico_nn'},
+            { title: "Aprobado", data: 'aprobado'} 
+        ],
+        columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
         select: {
-            'style': 'multi'
+            style:'multi',
         },
-        order: [[1, 'asc']]   */
-
-    } );
+        order: [[ 1, 'asc' ]]       
+      } );
    
     $('#btn_aprobar').click(function(e){
-      //validacionDiagnostico([18,19,20], "aprobar");      
+      var lista_ids = [];
+
+      var selected = window.table.rows( { selected: true } ).data();      
+
+      for (var index = 0; index < selected.count(); index++) {
+        lista_ids.push(selected[index].id_diagnostico);             
+      }
+
+      validacionDiagnostico(lista_ids, "aprobar");      
     });
      $('#btn_desaprobar').click(function(e){ 
-      //validacionDiagnostico([18,19,20], "desaprobar");
+      var lista_ids = [];
+
+      var selected = window.table.rows( { selected: true } ).data();      
+
+      for (var index = 0; index < selected.count(); index++) {
+        lista_ids.push(selected[index].id_diagnostico);             
+      }
+      console.log(lista_ids);
+      validacionDiagnostico(lista_ids, "desaprobar");
     });
   } );
 
@@ -91,11 +101,14 @@
             'csrfmiddlewaretoken': '{{ csrf_token }}'},
             url: '/tep/validacion_diagnosticos/' + cod_operacion,
             success: function(data) {
-              console.log(JSON.parse(data['operacion']))
               alert(mensaje);
             }
     });
   }
+
+  $(document).ajaxStop(function(){
+    window.location.reload();
+  });
 
 </script>
 

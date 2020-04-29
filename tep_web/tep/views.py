@@ -138,11 +138,16 @@ def get_datos_paciente(request, id_paciente):
 
 def historico_diagnosticos(request):
 
-    diagnosticos = Diagnostico.objects.values('id', 'paciente', 'diagnostico_nn', 'fecha', 'edad', 'genero').order_by('-id')
+    diagnosticos = Diagnostico.objects.values('id', 'paciente', 'diagnostico_nn', 'fecha', 'edad', 'genero', 'aprobado').order_by('-id')
     process_data = list(diagnosticos)    
     data_diagnosticos = list()
         
-    for diagnostico in process_data:            
+    for diagnostico in process_data:     
+
+        aprobado = 'Sin valoración'
+        if diagnostico['aprobado'] is not None:
+            aprobado =  'SÍ' if diagnostico['aprobado'] else 'NO'
+
         paciente = Paciente.objects.get(pk=diagnostico['paciente']) 
         get_diagnostico = {'id_diagnostico': diagnostico['id'],
                             'fecha' : diagnostico['fecha'].astimezone(get_localzone()).strftime("%m/%d/%Y, %H:%M:%S"),                          
@@ -151,7 +156,8 @@ def historico_diagnosticos(request):
                             'apellidos': paciente.apellidos,
                             'sexo': 'Masculino' if diagnostico['genero'] == 1 else 'Femenino',
                             'edad': diagnostico['edad'],
-                            'diagnostico_nn': 'SÍ' if diagnostico['diagnostico_nn'] else 'NO' }        
+                            'diagnostico_nn': 'SÍ' if diagnostico['diagnostico_nn'] else 'NO',
+                            'aprobado': aprobado}      
         data_diagnosticos.append(get_diagnostico)
 
     return render(request, 'tep/historico_diagnosticos.html', {'diagnosticos': json.dumps(data_diagnosticos)})
