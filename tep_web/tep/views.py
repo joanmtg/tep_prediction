@@ -47,11 +47,18 @@ def crear_csv(datos_formulario, archivo):
 
 def registro_paciente(request):    
     if request.method == "POST":
+        diagnosticar = 'btn_guardar_diagnosticar' in request.POST
         form = PacienteForm(request.POST)
         if form.is_valid():
-            paciente = form.save()    
-            messages.success(request, "El paciente ha sido registrado correctamente. Ingrese sus datos médicos")
-            return redirect(reverse('datos_medicos', args=[0, paciente.pk]))
+            paciente = form.save()                
+            if diagnosticar:
+                messages.success(request, "El paciente ha sido registrado correctamente. Ingrese sus datos médicos")
+                return redirect(reverse('datos_medicos', args=[0, paciente.pk]))
+            else:
+                form = PacienteForm()
+                messages.success(request, "El paciente ha sido registrado correctamente")
+                return render(request, 'tep/registro_paciente.html', {'form':form})
+
         else:
             messages.error(request, "Por favor verificar los campos en rojo") 
             print(form.errors)

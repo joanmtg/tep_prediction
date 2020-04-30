@@ -16,7 +16,8 @@
       <form method="post">
         {% csrf_token %}
         {{form|crispy}}
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" name='btn_guardar' class="btn btn-primary">Guardar</button>
+        <button type="submit" name='btn_guardar_diagnosticar' class="btn btn-primary">Guardar y diagnosticar</button>
       </form>
     </div>
     <!-- /.card-body -->
