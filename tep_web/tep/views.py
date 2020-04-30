@@ -163,7 +163,7 @@ def historico_diagnosticos(request):
                             'apellidos': paciente.apellidos,
                             'sexo': 'Masculino' if diagnostico['genero'] == 1 else 'Femenino',
                             'edad': diagnostico['edad'],
-                            'diagnostico_nn': 'SÍ' if diagnostico['diagnostico_nn'] else 'NO',
+                            'diagnostico_nn': 'Detectado' if diagnostico['diagnostico_nn'] else 'No detectado',
                             'aprobado': aprobado}      
         data_diagnosticos.append(get_diagnostico)
 
@@ -244,7 +244,8 @@ def cargar_diagnostico_multiple(request):
                           'title': field.verbose_name.capitalize(),
                           'type': 'checkbox',
                           'valueField': 'id',
-                          'textField': 'value'
+                          'textField': 'value',
+                          'width': 200 if len(field.verbose_name) >= 50 else 140 if len(field.verbose_name) >=15 else 120
             }
             lista_atributos.append(field_data)
 
@@ -260,7 +261,8 @@ def cargar_diagnostico_multiple(request):
                           'items': choices_fields,                          
                           'valueField': 'id',
                           'textField': 'value',
-                          'validate': 'required'
+                          'validate': 'required',
+                          'width': 200 if len(field.verbose_name) >= 50 else 140 if len(field.verbose_name) >=15 else 120
 
             }
             lista_atributos.append(field_data)
@@ -308,7 +310,7 @@ def diagnostico_multiple(request):
             predicciones = result[0][0]
             for (prediccion, diagnostico) in zip(predicciones, diagnosticos):
                 prediccion = prediccion == 1.0
-                diagnostico['prediccion'] = 'SÍ' if prediccion else 'NO'
+                diagnostico['prediccion'] = 'Detectado' if prediccion else 'No detectado'
 
                 id_diagnostico = diagnostico['id_diagnostico']
                 #Si no es un diagnostico anónimo, se guarda la predicción 
