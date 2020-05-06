@@ -7,74 +7,42 @@ library(neuralnet)
 library(ggplot2)
 library(plyr)
 library(Metrics)
-#545, 225
-#set.seed(10)
+#library(caret)
 
-setwd("/home/joan/Desktop/Tesis/tep_prediction/Experimentation")
+#wd = commandArgs(trailingOnly = TRUE)
+#setwd(wd)
+
+setwd("/home/joan/Desktop/Tesis/tep_prediction/tep_web/tep/csv_scripts")
 data = read.table("data_tep.csv", header = T, sep=",")
-dim(data)
-#print(names(data))
-#random = round(0.1 * nrow(data), digits = 0)
+test_case = read.table("input.csv", header = T, sep=",")
+
 total_index = 1:nrow(data)
+original_rows = nrow(data) 
+
+data = rbind(data, test_case)
+print(total_index)
+print(nrow(data))
+index_case = (original_rows+1):(original_rows+nrow(test_case))
 
 index_test = sample(total_index, size = 0.2 * nrow(data), replace=FALSE)
 index_train = setdiff(total_index,index_test)
-
-#print(index_test)
-print("Train Set")
-print(index_train) 
 
 max = apply(data , 2 , max)
 min = apply(data, 2 , min)
 scaled = as.data.frame(scale(data, center = min, scale = max - min))
 
-#summary(data)
-#summary(scaled)
-
 trainNN = scaled[index_train, ]
 testNN = scaled[index_test, ]
-dim(trainNN)
-dim(testNN)
-n = names(trainNN)
-f = as.formula(paste("tep ~", paste(n[!n %in% "tep"], collapse = " + ")))
+caseNN = scaled[index_case,]
 
-# NN = neuralnet(f,
-#                 data          = trainNN,
-#                 hidden        = c(1,8,1),
-#                 threshold     = 0.03,  
-#                 algorithm     = "sag",
-#                 act.fct       = "logistic",
-#                 rep=3 
-# )
-# plot(NN)
 load_model = readRDS("final_model_nn.rds")
-#print(load_model)
+predict_testNN = compute(load_model, caseNN[,c(1:29)])   
 
-predict_testNN = compute(load_model, testNN[,c(1:29)])   
+tep.predict  = predict_testNN$net.result
 
-tep.predict  = predict_testNN$net.result*(max(data$tep)-min(data$tep))+min(data$tep)
-tep.real = testNN$tep*(max(data$tep)-min(data$tep))+min(data$tep)
+#print(tep.predict)
 
-tep.predict = ifelse(tep.predict > 0.5, 1, 0)
+result = ifelse(tep.predict > 0.5, 1, 0)
+#print(result)
 
-datarealpred =cbind.data.frame(tep.predict,tep.real)
-
-print("Prediction against real:")   
-print(datarealpred)           
-
-accuracy =  accuracy(tep.real, tep.predict)
-auc = auc(tep.real, tep.predict)
-precision = precision(tep.real, tep.predict)
-recall = recall(tep.real,tep.predict)
-f1 = (2 * precision * recall) / (precision + recall)
-
-
-result = c(accuracy = accuracy, 
-                auc = auc,
-                precision = precision,
-                recall = recall,
-                f1 = f1)
-
-return(result)
-
-# saveRDS(NN, "final_model_nn.rds")
+return(as.data.frame(result))
