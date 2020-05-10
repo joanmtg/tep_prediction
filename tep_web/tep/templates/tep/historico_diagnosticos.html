@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Predicción de TEP
+    Histórico de Diagnósticos
 {% endblock %}
 
 {% block content %}
@@ -39,6 +39,13 @@
 
     table = $('#tabla_diagnosticos').DataTable( {
         data: data_diagnosticos,          
+        "scrollX": true,
+        dom: 'Bfrtip',
+        buttons:[{ "extend": 'copy', "text":'Copiar',"className": 'btn btn-primary'},
+        { "extend": 'csv', "text":'CSV',"className": 'btn btn-primary'},
+        { "extend": 'excel', "text":'Excel',"className": 'btn btn-primary'},
+        { "extend": 'pdf', "text":'PDF',"className": 'btn btn-primary'},
+        { "extend": 'print', "text":'Imprimir',"className": 'btn btn-primary'}],     
         columns: [
             { title: "Seleccionar", defaultContent:''},
             { title: "Num. Diagnóstico", data:'id_diagnostico' },

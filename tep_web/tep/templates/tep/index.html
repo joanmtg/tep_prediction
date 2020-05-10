@@ -8,6 +8,18 @@
 
 {% block content %}
 
+{% block stylesheets %}
+{{ block.super }}
+<style>
+@media only screen and (max-width: 700px) {
+  .titulo {
+      display: none !important;
+  }
+}
+</style>
+
+{% endblock %}
+
 <div class="container-fluid">
   <!-- Small boxes (Stat box) -->
   <div class="row">
@@ -16,9 +28,9 @@
       <div class="small-box bg-warning">
         <!-- <a href="{% url 'registro_paciente' %}"> -->
         <div class="inner">
-          <h3>Nuevo Paciente</h3>
+          <h3 class="titulo">Nuevo Paciente</h3>
 
-          <p>Registro de pacientes</p>
+          <p><b>Registro de pacientes</b></p>
         </div>
         <!-- </a> -->
         <div class="icon">
@@ -32,8 +44,8 @@
       <div class="small-box bg-warning">
         <!-- <a href="{% url 'registro_paciente' %}"> -->
         <div class="inner">
-          <h3>Lista de Pacientes</h3>          
-          <p>Pacientes registrados</p>
+          <h3 class="titulo">Lista de Pacientes</h3>          
+          <p><b>Pacientes registrados</b></p>
         </div>
         <!-- </a> -->
         <div class="icon">
@@ -47,8 +59,8 @@
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>Diagn. Paciente</h3>
-          <p>Realizar diagnóstico</p>
+          <h3 class="titulo">Diagn. Paciente</h3>
+          <p><b>Realizar diagnóstico</b></p>
         </div>
         <div class="icon">
           <i class="fas fa-stethoscope"></i>
@@ -60,8 +72,8 @@
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>Diagn. Anónimo</h3>
-          <p>Diagnóstico anónimo</p>
+          <h3 class="titulo">Diagn. Anónimo</h3>
+          <p><b>Diagnóstico anónimo</b></p>
         </div>
         <div class="icon">
           <i class="fas fa-user-secret"></i>
@@ -74,8 +86,8 @@
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>Diagn. Múltiple</h3>
-          <p>Diagnóstico múltiple</p>
+          <h3 class="titulo">Diagn. Múltiple</h3>
+          <p><b>Diagnóstico múltiple</b></p>
         </div>
         <div class="icon">
           <i class="fas fa-users"></i>
@@ -88,9 +100,9 @@
       <!-- small box -->
       <div class="small-box bg-success">
         <div class="inner">
-          <h3>Histórico<sup style="font-size: 20px"></sup></h3>
+          <h3 class="titulo">Histórico<sup style="font-size: 20px"></sup></h3>
 
-          <p>Histórico de diagnósticos</p>
+          <p><b>Histórico de diagnósticos</b></p>
         </div>
         <div class="icon">
           <i class="fas fa-history"></i>

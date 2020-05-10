@@ -100,4 +100,4 @@ for (i in 1:length(types)){
 }
 
 write_list = plyr::adply(averages,1,unlist,.id = NULL)
-write.csv(write_list, "CSV/svm_reduced_2.csv")
+write.csv(write_list, "CSV/svm_nu_optimized.csv")

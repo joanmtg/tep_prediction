@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Predicción de TEP
+    Diagnóstico Múltiple
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
   <div class="col-12">
     <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Diagnóstico masivo </h3>
+          <h3 class="card-title">Diagnóstico Múltiple</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -226,7 +226,14 @@
       console.log(resultados);
 
       var table = $('#tabla_resultados').DataTable( {
-        data: resultados,        
+        data: resultados,  
+        "scrollX": true,
+        dom: 'Bfrtip',
+        buttons:[{ "extend": 'copy', "text":'Copiar',"className": 'btn btn-primary'},
+        { "extend": 'csv', "text":'CSV',"className": 'btn btn-primary'},
+        { "extend": 'excel', "text":'Excel',"className": 'btn btn-primary'},
+        { "extend": 'pdf', "text":'PDF',"className": 'btn btn-primary'},
+        { "extend": 'print', "text":'Imprimir',"className": 'btn btn-primary'}],   
         columns: [
             { title: "Num. Diagnóstico", data:'id_diagnostico' },
             { title: "Paciente", data:'paciente' },

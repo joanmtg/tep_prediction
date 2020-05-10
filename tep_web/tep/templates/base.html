@@ -18,6 +18,8 @@
         <link rel="stylesheet" href="{% static 'admin-lte/plugins/jsgrid/jsgrid-theme.min.css' %}">        
         <link rel="stylesheet" href="{% static 'admin-lte/plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
         <link rel="stylesheet" href="{% static 'admin-lte/plugins/datatables-select/css/select.bootstrap4.css' %}">        
+        <!-- <link rel="stylesheet" href="{% static 'admin-lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}"> -->        
+        <link rel="stylesheet" href="{% static 'admin-lte/plugins/datatables-buttons/css/buttons.bootstrap4.css' %}">          
     {% endblock %}
 
     {% block extra_head %}{% endblock %}
@@ -31,7 +33,7 @@
         {% endblock %}
 
         {% block nav_sidebar %}
-            {% include '_main_sidebar.html' %}
+            {% include 'sidebar.html' %}
         {% endblock %}
 
         {% block content_wrapper %}
@@ -88,6 +90,14 @@
 <script src="{% static 'admin-lte/plugins/datatables/jquery.dataTables.js' %}"></script>
 <script src="{% static 'admin-lte/plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
 <script src="{% static 'admin-lte/plugins/datatables-select/js/dataTables.select.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/datatables-buttons/js/dataTables.buttons.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/datatables-buttons/js/buttons.flash.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'admin-lte/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+
 <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 <script>
     setTimeout(function() {

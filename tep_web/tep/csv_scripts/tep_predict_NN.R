@@ -40,9 +40,9 @@ predict_testNN = compute(load_model, caseNN[,c(1:29)])
 
 tep.predict  = predict_testNN$net.result
 
-#print(tep.predict)
+print(tep.predict)
 
 result = ifelse(tep.predict > 0.5, 1, 0)
-#print(result)
+print(result)
 
 return(as.data.frame(result))

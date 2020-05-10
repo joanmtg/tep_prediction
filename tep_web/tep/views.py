@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from .forms import PacienteForm, DiagnosticoForm, DiagnosticoAnonimoForm, ActualizarPacienteForm
 from .models import Paciente, Diagnostico
@@ -8,9 +9,9 @@ import csv, os, json
 import rpy2.robjects as robjects
 from rpy2.robjects import r
 from tep_web.settings import CSV_AND_SCRIPTS_FOLDER
-from django.db.models import Prefetch
 import pytz
 from tzlocal import get_localzone
+from django.contrib.auth import login, logout, authenticate
 
 
 csv_columns = ['genero', 'edad','bebedor','fumador','otra_enfermedad',
@@ -45,12 +46,18 @@ def crear_csv(datos_formulario, archivo):
         print("I/O error", e)
         return False
 
+def index(request):                     
+    return render(request, 'tep/index.html')   
+
+@login_required(login_url="login")
 def registro_paciente(request):    
     if request.method == "POST":
         diagnosticar = 'btn_guardar_diagnosticar' in request.POST
         form = PacienteForm(request.POST)
         if form.is_valid():
-            paciente = form.save()                
+            paciente = form.save()
+            paciente.medico = request.user
+            paciente.save()                
             if diagnosticar:
                 messages.success(request, "El paciente ha sido registrado correctamente. Ingrese sus datos médicos")
                 return redirect(reverse('datos_medicos', args=[0, paciente.pk]))
@@ -67,7 +74,7 @@ def registro_paciente(request):
 
     return render(request, 'tep/registro_paciente.html', {'form':form})
 
-
+@login_required(login_url="login")
 def actualizar_paciente(request, id_paciente):    
 
     if request.method == "POST":
@@ -86,7 +93,7 @@ def actualizar_paciente(request, id_paciente):
 
     return render(request, 'tep/registro_paciente.html', {'form':form})
 
-
+@login_required(login_url="login")
 def datos_medicos(request, consulta_anonima, id_paciente): 
     anonimo = consulta_anonima == 1
     cargar_paciente = id_paciente != 0
@@ -96,6 +103,7 @@ def datos_medicos(request, consulta_anonima, id_paciente):
             form = DiagnosticoAnonimoForm(request.POST)
         else:
             form = DiagnosticoForm(request.POST)
+            form.fields['paciente'].queryset = Paciente.objects.filter(medico=request.user.id)
 
         if form.is_valid():  
             nombre_paciente = 'Anónimo'              
@@ -128,11 +136,12 @@ def datos_medicos(request, consulta_anonima, id_paciente):
             form = DiagnosticoAnonimoForm()
         else:
             form = DiagnosticoForm()
+            form.fields['paciente'].queryset = Paciente.objects.filter(medico=request.user.id)
 
     return render(request, 'tep/registro_diagnostico.html', {'form':form, 'anonimo':anonimo,
                                                             'id_paciente':id_paciente})
 
-
+@login_required(login_url="login")
 def get_datos_paciente(request, id_paciente):      
     if request.method == 'GET':            
         paciente = Paciente.objects.get(pk=id_paciente)
@@ -142,10 +151,13 @@ def get_datos_paciente(request, id_paciente):
 
         return JsonResponse({'paciente': get_paciente}) 
 
-
+@login_required(login_url="login")
 def historico_diagnosticos(request):
 
-    diagnosticos = Diagnostico.objects.values('id', 'paciente', 'diagnostico_nn', 'fecha', 'edad', 'genero', 'aprobado').order_by('-id')
+    current_user = request.user
+    print('user_id:',current_user.id)
+
+    diagnosticos = Diagnostico.objects.filter(paciente__medico=request.user.id).values('id', 'paciente', 'diagnostico_nn', 'fecha', 'edad', 'genero', 'aprobado').order_by('-id')
     process_data = list(diagnosticos)    
     data_diagnosticos = list()
         
@@ -169,8 +181,9 @@ def historico_diagnosticos(request):
 
     return render(request, 'tep/historico_diagnosticos.html', {'diagnosticos': json.dumps(data_diagnosticos)})
 
+@login_required(login_url="login")
 def lista_pacientes(request):    
-    pacientes = Paciente.objects.values('pk', 'cedula', 'nombres', 'apellidos',
+    pacientes = Paciente.objects.filter(medico=request.user.id).values('pk', 'cedula', 'nombres', 'apellidos',
                                         'sexo', 'fecha_nacimiento')    
     list_pacientes = list(pacientes)
     print(len(list_pacientes))
@@ -186,6 +199,7 @@ def lista_pacientes(request):
                 
     return render(request, 'tep/lista_pacientes.html', {'pacientes': json.dumps(data)})
 
+@login_required(login_url="login")
 def cargar_diagnostico_multiple(request):
     fields_dict = ['id','value']
     fields_select = ['frec_respiratoria',
@@ -222,7 +236,7 @@ def cargar_diagnostico_multiple(request):
 
     # Creación de choices con los pacientes existentes en la BD
 
-    pacientes = Paciente.objects.all()
+    pacientes = Paciente.objects.filter(medico=request.user.id)
     anonimo = (0, "Paciente anónimo")
     lista_pacientes = () + (anonimo,) 
     
@@ -271,6 +285,7 @@ def cargar_diagnostico_multiple(request):
     return render(request, 'tep/diagnostico_multiple.html',{'lista_atributos': json.dumps(lista_atributos),
                                                          'pacientes': json.dumps(pacientes)})
 
+@login_required(login_url="login")
 def diagnostico_multiple(request):
 
     if request.method == 'POST':
@@ -322,6 +337,7 @@ def diagnostico_multiple(request):
         return JsonResponse({'diagnosticos': json.dumps(diagnosticos)})
         #return render(request, 'tep/resultados_diagnostico_multiple.html', {'diagnosticos': json.dumps(diagnosticos)})
 
+@login_required(login_url="login")
 def validacion_diagnosticos(request, cod_operacion):
     
     if request.method == 'POST':

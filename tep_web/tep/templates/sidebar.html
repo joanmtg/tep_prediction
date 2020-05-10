@@ -1,0 +1,49 @@
+{% extends "_main_sidebar.html" %}
+{% load static %}
+
+{% block logo_text %}Prediction<b>TEP</b>{% endblock %}
+{% block logo_text_small %}P<b>TEP</b>{% endblock %}
+
+{% block nav_links %}
+
+<li class="nav-item">
+    <a href="{% url 'registro_paciente' %}" class="nav-link">
+        <i class="nav-icon fas fa-user-plus"></i> 
+        <p>Registrar Paciente</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{% url 'lista_pacientes' %}" class="nav-link">
+        <i class="nav-icon fas fa-book-medical"></i> 
+        <p>Lista de pacientes</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{% url 'datos_medicos' consulta_anonima=0 id_paciente=0 %}" class="nav-link">
+        <i class="nav-icon fas fa-stethoscope"></i> 
+        <p>Diagnóstico Paciente</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{% url 'datos_medicos' consulta_anonima=1 id_paciente=0 %}" class="nav-link">
+        <i class="nav-icon fas fa-user-secret"></i> 
+        <p>Diagnóstico Anónimo</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{% url 'cargar_diagnostico_multiple' %}" class="nav-link">
+        <i class="nav-icon fas fa-users"></i> 
+        <p>Diagnóstico Múltiple</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{% url 'historico_diagnosticos' %}" class="nav-link">
+        <i class="nav-icon fas fa-history"></i> 
+        <p>Histórico de Diagnósticos</p>
+    </a>
+</li>
+      
+
+{% endblock nav_links %}
