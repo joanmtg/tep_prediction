@@ -12,10 +12,10 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title">Listado de pacientes</h2>
+        <h2 class="card-title">Listado de Pacientes</h2>
       </div>
       <div class="card-body">
-        <table id="tabla_pacientes" class="table table-bordered table-hover">
+        <table id="tabla_pacientes" class="table table-bordered table-hover" style="width:100%">
         </table>
       </div>
     </div>    
@@ -42,7 +42,14 @@
 
     console.log(data_pacientes);
     table = $('#tabla_pacientes').DataTable( {
-        data: data_pacientes,        
+        data: data_pacientes,     
+        "scrollX": true,
+        dom: 'Bfrtip',
+        buttons:[{ "extend": 'copy', "text":'Copiar',"className": 'btn btn-primary'},
+        { "extend": 'csv', "text":'CSV',"className": 'btn btn-primary'},
+        { "extend": 'excel', "text":'Excel',"className": 'btn btn-primary'},
+        { "extend": 'pdf', "text":'PDF',"className": 'btn btn-primary'},
+        { "extend": 'print', "text":'Imprimir',"className": 'btn btn-primary'}],        
         columns: [
             { title: 'No. Paciente', data: 'id'},
             { title: "Cédula", data:'cedula' },
@@ -56,7 +63,8 @@
                 defaultContent: '<a href="" class="editor_edit"> Editar <i class="fas fa-edit"></i></a>'
             }                    
         ]        
-    } );
+    } );    
+   
 
   } );
 

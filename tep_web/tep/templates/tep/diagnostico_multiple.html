@@ -226,7 +226,14 @@
       console.log(resultados);
 
       var table = $('#tabla_resultados').DataTable( {
-        data: resultados,        
+        data: resultados,  
+        "scrollX": true,
+        dom: 'Bfrtip',
+        buttons:[{ "extend": 'copy', "text":'Copiar',"className": 'btn btn-primary'},
+        { "extend": 'csv', "text":'CSV',"className": 'btn btn-primary'},
+        { "extend": 'excel', "text":'Excel',"className": 'btn btn-primary'},
+        { "extend": 'pdf', "text":'PDF',"className": 'btn btn-primary'},
+        { "extend": 'print', "text":'Imprimir',"className": 'btn btn-primary'}],   
         columns: [
             { title: "Num. Diagnóstico", data:'id_diagnostico' },
             { title: "Paciente", data:'paciente' },
