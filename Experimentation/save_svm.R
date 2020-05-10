@@ -71,7 +71,6 @@ support_vector_machine = function(type, kernel, dataset, nu){
         names(result) = c("metrics", "model")
         result[[1]] = metrics
         result[[2]] = classifier
-        #print(result$model)
         return(result)
     })
 

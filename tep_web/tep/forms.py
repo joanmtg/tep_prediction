@@ -4,7 +4,8 @@ from .models import Paciente, Diagnostico
 class PacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
-        fields =  '__all__' 
+        fields =  '__all__'
+        exclude = ['medico'] 
 
 class ActualizarPacienteForm(forms.ModelForm):
     class Meta:

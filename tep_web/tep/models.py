@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 from datetime import datetime
 import pytz
 from tzlocal import get_localzone
+from django.contrib.auth.models import User
 
 numeric = RegexValidator(r'^[0-9]*$', 'Sólo valores numéricos permitidos.')
 
@@ -17,6 +18,7 @@ class Paciente(models.Model):
     apellidos = models.CharField(max_length=30)
     sexo = models.IntegerField(choices=OP_GENERO)
     fecha_nacimiento = models.DateField(verbose_name='Fecha de nacimiento (día/mes/año)', help_text='Ejemplo: 22/10/1996')
+    medico = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula    
