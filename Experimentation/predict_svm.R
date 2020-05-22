@@ -8,7 +8,7 @@ library(caTools)
 library(caret)
 library(plyr)
 
-setwd("/home/joan/Desktop/Tesis/tep_prediction/Experimentation")
+setwd("/home/joan/Desktop/Experimentation")
 dataset = read.table("data_tep.csv", header = T, sep=",")
 test_case = read.table("input.csv", header = T, sep=",")
 load_model = readRDS("final_model_svm.rds")

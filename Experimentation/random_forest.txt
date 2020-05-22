@@ -1,0 +1,1376 @@
+     genero            edad             bebedor           fumador       
+ Min.   :-0.941   Min.   :-1.81827   Min.   :-0.2108   Min.   :-0.4532  
+ 1st Qu.:-0.941   1st Qu.:-0.86803   1st Qu.:-0.2108   1st Qu.:-0.4532  
+ Median :-0.941   Median :-0.02338   Median :-0.2108   Median :-0.4532  
+ Mean   : 0.000   Mean   : 0.00000   Mean   : 0.0000   Mean   : 0.0000  
+ 3rd Qu.: 1.055   3rd Qu.: 0.82128   3rd Qu.:-0.2108   3rd Qu.:-0.4532  
+ Max.   : 1.055   Max.   : 1.98268   Max.   : 4.7089   Max.   : 2.1906  
+ otra_enfermedad   procedimiento_15dias inmovilidad_inferior viaje_prolongado 
+ Min.   :-1.0703   Min.   :-0.3321      Min.   :-0.291       Min.   :-0.1918  
+ 1st Qu.:-1.0703   1st Qu.:-0.3321      1st Qu.:-0.291       1st Qu.:-0.1918  
+ Median : 0.9276   Median :-0.3321      Median :-0.291       Median :-0.1918  
+ Mean   : 0.0000   Mean   : 0.0000      Mean   : 0.000       Mean   : 0.0000  
+ 3rd Qu.: 0.9276   3rd Qu.:-0.3321      3rd Qu.:-0.291       3rd Qu.:-0.1918  
+ Max.   : 0.9276   Max.   : 2.9893      Max.   : 3.412       Max.   : 5.1776  
+ antecedentes_tep    malignidad          disnea        dolor_toracico   
+ Min.   :-0.2108   Min.   :-0.3948   Min.   :-1.7594   Min.   :-0.9683  
+ 1st Qu.:-0.2108   1st Qu.:-0.3948   1st Qu.: 0.5643   1st Qu.:-0.9683  
+ Median :-0.2108   Median :-0.3948   Median : 0.5643   Median :-0.9683  
+ Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000  
+ 3rd Qu.:-0.2108   3rd Qu.:-0.3948   3rd Qu.: 0.5643   3rd Qu.: 1.0253  
+ Max.   : 4.7089   Max.   : 2.5145   Max.   : 0.5643   Max.   : 1.0253  
+      tos            hemoptisis      disautonomicos    edema_inferior   
+ Min.   :-0.4302   Min.   :-0.2453   Min.   :-0.5972   Min.   :-0.4302  
+ 1st Qu.:-0.4302   1st Qu.:-0.2453   1st Qu.:-0.5972   1st Qu.:-0.4302  
+ Median :-0.4302   Median :-0.2453   Median :-0.5972   Median :-0.4302  
+ Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000  
+ 3rd Qu.:-0.4302   3rd Qu.:-0.2453   3rd Qu.: 1.6625   3rd Qu.:-0.4302  
+ Max.   : 2.3077   Max.   : 4.0475   Max.   : 1.6625   Max.   : 2.3077  
+ frec_respiratoria      so2            frec_cardiaca      pr_sistolica    
+ Min.   :-1.4092   Min.   :-3.813031   Min.   :-3.5890   Min.   :-2.7932  
+ 1st Qu.:-0.6232   1st Qu.:-0.004534   1st Qu.:-0.5621   1st Qu.:-0.5064  
+ Median :-0.6232   Median : 0.630216   Median :-0.5621   Median : 0.2559  
+ Mean   : 0.0000   Mean   : 0.000000   Mean   : 0.0000   Mean   : 0.0000  
+ 3rd Qu.: 0.1628   3rd Qu.: 0.630216   3rd Qu.: 0.9513   3rd Qu.: 0.2559  
+ Max.   : 4.0928   Max.   : 0.630216   Max.   : 0.9513   Max.   : 2.5427  
+ pr_diastolica         fiebre          crepitos        sibilancias     
+ Min.   :-2.5253   Min.   :-0.291   Min.   :-0.4302   Min.   :-0.1474  
+ 1st Qu.:-0.8758   1st Qu.:-0.291   1st Qu.:-0.4302   1st Qu.:-0.1474  
+ Median : 0.2239   Median :-0.291   Median :-0.4302   Median :-0.1474  
+ Mean   : 0.0000   Mean   : 0.000   Mean   : 0.0000   Mean   : 0.0000  
+ 3rd Qu.: 0.7737   3rd Qu.:-0.291   3rd Qu.:-0.4302   3rd Qu.:-0.1474  
+ Max.   : 2.4232   Max.   : 3.412   Max.   : 2.3077   Max.   : 6.7335  
+     soplos            wbc                hb                plt         
+ Min.   :-0.376   Min.   :-1.6962   Min.   :-5.35928   Min.   :-5.1776  
+ 1st Qu.:-0.376   1st Qu.:-0.3546   1st Qu.: 0.03856   1st Qu.: 0.1918  
+ Median :-0.376   Median :-0.3546   Median : 0.03856   Median : 0.1918  
+ Mean   : 0.000   Mean   : 0.0000   Mean   : 0.00000   Mean   : 0.0000  
+ 3rd Qu.:-0.376   3rd Qu.:-0.3546   3rd Qu.: 0.03856   3rd Qu.: 0.1918  
+ Max.   : 4.590   Max.   : 5.0120   Max.   : 3.63711   Max.   : 0.1918  
+    derrame        tep    
+ Min.   :-0.2517   0: 31  
+ 1st Qu.:-0.2517   1:109  
+ Median :-0.2517          
+ Mean   : 0.0000          
+ 3rd Qu.:-0.2517          
+ Max.   : 5.3115          
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  5
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6437229   0.8340769   0.9636364   0.3238095   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  0 22
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  5
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8357143   0.6649351   0.8417692   0.9727273   0.3571429   0.9021122 
+   y_pred
+     0  1
+  0  2  4
+  1  0 22
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6173160   0.8223248   0.9727273   0.2619048   0.8907801 
+   y_pred
+     0  1
+  0  2  4
+  1  0 22
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  5
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  2 20
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8285714   0.6603896   0.8406823   0.9636364   0.3571429   0.8972813 
+   y_pred
+     0  1
+  0  2  4
+  1  0 22
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8285714   0.6506494   0.8357863   0.9727273   0.3285714   0.8983888 
+   y_pred
+     0  1
+  0  2  4
+  1  0 22
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8285714   0.6506494   0.8357863   0.9727273   0.3285714   0.8983888 
+   y_pred
+     0  1
+  0  2  4
+  1  0 22
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  5
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8357143   0.6649351   0.8417692   0.9727273   0.3571429   0.9021122 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  5
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6437229   0.8335385   0.9636364   0.3238095   0.8936170 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8071429   0.6127706   0.8210940   0.9636364   0.2619048   0.8861702 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  2 20
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8071429   0.6248918   0.8262222   0.9545455   0.2952381   0.8850833 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  5
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6437229   0.8340769   0.9636364   0.3238095   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8071429   0.6127706   0.8210940   0.9636364   0.2619048   0.8861702 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  2 20
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6415584   0.8334686   0.9545455   0.3285714   0.8889480 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  2 20
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6415584   0.8334686   0.9545455   0.3285714   0.8889480 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  2 20
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6415584   0.8334686   0.9545455   0.3285714   0.8889480 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8275556   0.9636364   0.2952381   0.8898936 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  1  5
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8142857   0.6294372   0.8280940   0.9636364   0.2952381   0.8900555 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   y_pred
+     0  1
+  0  1  6
+  1  0 21
+   y_pred
+     0  1
+  0  3  3
+  1  1 21
+   y_pred
+     0  1
+  0  2  4
+  1  1 21
+   accuracy         auc   precision sensitivity specificity          f1 
+  0.8214286   0.6461039   0.8345556   0.9636364   0.3285714   0.8937789 

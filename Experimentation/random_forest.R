@@ -1,13 +1,11 @@
-#install.packages('caTools')
-#install.packages('caret')
-#install.packages('randomForest')
-
 library(randomForest)
 library(caTools)
 library(caret)
 library(plyr)
+library(Metrics)
 
-setwd("/home/joan/Desktop/Tesis/tep_prediction/Experimentation")
+set.seed(534)
+setwd("/home/joan/Desktop/Experimentation")
 dataset = read.csv("data_tep.csv")
 
 dataset$tep = factor(dataset$tep, levels = c("0", "1"), labels = c("0", "1"))
@@ -39,26 +37,26 @@ random_forest = function(ntree, dataset){
                     type="classification")                 
 
         y_pred = predict(classifier, newdata = test_fold[,c(1:29)])
-
         c_matrix = table(test_fold$tep, y_pred)
-        #print(c_matrix)        
+        print(c_matrix)        
         TP = c_matrix[2,2]
         TN = c_matrix[1,1]
         FN = c_matrix[2,1]
-        FP = c_matrix[1,2]
+        FP = c_matrix[1,2]        
 
-        accuracy = (TP + TN) / (TN + TP + FN + FP)        
-        auc = Metrics::auc(test_fold$tep, y_pred)                 
+        accuracy = (TP + TN) / (TN + TP + FN + FP)                      
+        auc = Metrics::auc(test_fold$tep, y_pred)
         precision = TP / (TP + FP)  
-        recall = TP / (TP + FN)
-        f1 = (2 * precision * recall) / (precision + recall)
+        sensitivity = TP / (TP + FN)
+        specificity = TN / (TN + FP)
+        f1 = (2 * precision * sensitivity) / (precision + sensitivity)
                 
         result = c(accuracy = accuracy, 
-                auc = auc,
-                precision = precision,
-                recall = recall,
-                f1 = f1)
-
+                  auc = auc,
+                  precision = precision,
+                  sensitivity = sensitivity,
+                  specificity = specificity,
+                  f1 = f1)
         return(result)
     })   
 
@@ -70,7 +68,7 @@ averages = list()
 for (i in seq(50, 3000, by=50)){
     ntree = i
     results = random_forest(ntree, dataset)
-    sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)
+    sum_metrics = c(accuracy = 0, auc = 0, precision = 0, sensitivity = 0,  specificity = 0, f1 = 0)
 
     for (result in results){
         sum_metrics = sum_metrics + result            
@@ -85,4 +83,4 @@ for (i in seq(50, 3000, by=50)){
 }
 
 write_list = plyr::adply(averages,1,unlist,.id = NULL)
-write.csv(write_list, "CSV/random_forest_reduced_2.csv")
+write.csv(write_list, "CSV_maximum/random_forest.csv")

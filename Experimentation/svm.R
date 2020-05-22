@@ -8,8 +8,8 @@ library(caTools)
 library(caret)
 library(plyr)
 
-
-setwd("/home/joan/Desktop/Tesis/tep_prediction/Experimentation")
+set.seed(122)
+setwd("/home/joan/Desktop/Experimentation")
 dataset = read.csv("data_tep.csv")
 
 dataset$tep = factor(dataset$tep, levels = c("0", "1"), labels = c("0", "1"))
@@ -43,29 +43,28 @@ support_vector_machine = function(type, kernel, dataset, nu){
                     nu = nu)                                        
    
         y_pred = predict(classifier, newdata = test_fold[,c(1:29)])
-        #prediccion = factor(y_pred, levels = c("0", "1"), labels = c("0", "1"))        
+	
         c_matrix = table(test_fold$tep, y_pred)
-        #print(c_matrix)        
+        test = paste("Type:" ,type, "Kernel:", kernel, sep = " ", collapse=NULL)
+        print(test)
+        print(c_matrix)        
         TP = c_matrix[2,2]
         TN = c_matrix[1,1]
         FN = c_matrix[2,1]
-        FP = c_matrix[1,2]
-
-        #FPR = FP/(FP + TN)
-        #TPR = TP/(TP + FN)        
-        #auc_manual = (1/2) - (FPR/2) + (TPR/2)
-        #print(auc_manual)
+        FP = c_matrix[1,2]        
 
         accuracy = (TP + TN) / (TN + TP + FN + FP)                      
         auc = Metrics::auc(test_fold$tep, y_pred)
         precision = TP / (TP + FP)  
-        recall = TP / (TP + FN)
-        f1 = (2 * precision * recall) / (precision + recall)
+        sensitivity = TP / (TP + FN)
+        specificity = TN / (TN + FP)
+        f1 = (2 * precision * sensitivity) / (precision + sensitivity)
                 
         result = c(accuracy = accuracy, 
                   auc = auc,
                   precision = precision,
-                  recall = recall,
+                  sensitivity = sensitivity,
+                  specificity = specificity,
                   f1 = f1)
         return(result)
     })
@@ -81,8 +80,8 @@ averages = list()
 for (i in 1:length(types)){
     for (j in 1:length(kernels)){   
         print(paste("Type:" ,types[i], "Kernel:", kernels[j], sep = " ", collapse=NULL))   
-        sum_metrics = c(accuracy = 0, auc = 0, precision = 0, recall = 0, f1 = 0)  
-        results = support_vector_machine(types[i], kernels[j], dataset, 0.2)        
+        sum_metrics = c(accuracy = 0, auc = 0, precision = 0, sensitivity = 0, specificity = 0, f1 = 0)  
+        results = support_vector_machine(types[i], kernels[j], dataset, 0.108)        
         
         for (result in results){
             sum_metrics = sum_metrics + result            
@@ -100,4 +99,4 @@ for (i in 1:length(types)){
 }
 
 write_list = plyr::adply(averages,1,unlist,.id = NULL)
-write.csv(write_list, "CSV/svm_nu_optimized.csv")
+write.csv(write_list, "CSV_maximum/svm.csv")
