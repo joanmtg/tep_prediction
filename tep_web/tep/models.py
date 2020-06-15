@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 numeric = RegexValidator(r'^[0-9]*$', 'Sólo valores numéricos permitidos.')
 
-# Create your models here.
+#Modelos
 class Paciente(models.Model):
     OP_GENERO = (
         (0,'Femenino'),
@@ -21,8 +21,8 @@ class Paciente(models.Model):
     medico = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula    
-    
+        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula
+
     @property
     def edad(self):
         return int((datetime.now().date() - self.fecha_nacimiento).days / 365.25)
@@ -30,12 +30,12 @@ class Paciente(models.Model):
     @property
     def genero(self):
         return self.sexo
-        
+
     @property
     def info_basica(self):
-        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula   
-    
-    
+        return self.apellidos + ' ' + self.nombres + ' - ' +self.cedula
+
+
 
 class Diagnostico(models.Model):
     OP_GENERO = (
@@ -132,11 +132,11 @@ class Diagnostico(models.Model):
         (0, 'NO'),
         (1, 'IZQUIERDO'),
         (2, 'DERECHO'),
-        (3, 'BILATERAL'),        
-    )    
-    
+        (3, 'BILATERAL'),
+    )
+
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
-    genero = models.IntegerField(choices=OP_GENERO, verbose_name='Sexo')    
+    genero = models.IntegerField(choices=OP_GENERO, verbose_name='Sexo')
     edad = models.PositiveIntegerField()
     bebedor = models.BooleanField()
     fumador = models.BooleanField()
@@ -161,11 +161,16 @@ class Diagnostico(models.Model):
     crepitos = models.BooleanField(verbose_name='Crepitaciones')
     sibilancias = models.BooleanField()
     soplos = models.IntegerField(choices=OP_SOPLOS)
-    wbc = models.IntegerField(choices=OP_WBC, verbose_name='Conteo de glóbulos blancos (WBC)')    
+    wbc = models.IntegerField(choices=OP_WBC, verbose_name='Conteo de glóbulos blancos (WBC)')
     hb = models.IntegerField(choices=OP_HB, verbose_name='Hemoglobina (HB)')
     plt = models.IntegerField(choices=OP_PLT, verbose_name='Conteo de plaquetas (PLT)')
     derrame = models.IntegerField(choices=OP_DERRAME)
-    
+
+
+    """TODO
+    Agregar diagnostico_svm, diagnostico_random_forest y separar
+    la aprobación en tres campos correspondientes a cada modelo
+    """
     diagnostico_nn = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Redes Neuronales')
     aprobado = models.BooleanField(blank= True, null=True, verbose_name='Aprobado')
     #diagnostico_svm = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico SVM')

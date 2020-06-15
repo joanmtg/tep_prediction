@@ -1,17 +1,22 @@
 from django import forms
 from .models import Paciente, Diagnostico
 
+#Formularios manejados en la aplicación
+
+# Formulario para registrar un paciente
 class PacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
         fields =  '__all__'
-        exclude = ['medico'] 
+        exclude = ['medico']
 
+#Formulario para actualizar la información de un paciente
 class ActualizarPacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
         fields=['nombres', 'apellidos', 'sexo', 'fecha_nacimiento']
 
+#Formulario para capturar los datos médicos de un paciente registrado
 class DiagnosticoForm(forms.ModelForm):
     class Meta:
         model = Diagnostico
@@ -47,10 +52,10 @@ class DiagnosticoForm(forms.ModelForm):
                 'derrame'
         ]
 
-
+#Formulario para capturar los datos médicos de un paciente anónimo
 class DiagnosticoAnonimoForm(DiagnosticoForm):
     class Meta:
         model = DiagnosticoForm.Meta.model
         fields = DiagnosticoForm.Meta.fields
         exclude = ['paciente']
-       
+
