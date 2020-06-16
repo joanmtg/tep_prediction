@@ -17,7 +17,7 @@ data = read.table("data_tep.csv", header = T, sep=",")
 test_case = read.table("input.csv", header = T, sep=",")
 
 total_index = 1:nrow(data)
-original_rows = nrow(data) 
+original_rows = nrow(data)
 
 data = rbind(data, test_case)
 print(total_index)
@@ -36,13 +36,10 @@ testNN = scaled[index_test, ]
 caseNN = scaled[index_case,]
 
 load_model = readRDS("final_model_nn.rds")
-predict_testNN = compute(load_model, caseNN[,c(1:29)])   
+predict_testNN = compute(load_model, caseNN[,c(1:29)])
 
 tep.predict  = predict_testNN$net.result
 
-#print(tep.predict)
-
 result = ifelse(tep.predict > 0.5, 1, 0)
-#print(result)
 
 return(as.data.frame(result))

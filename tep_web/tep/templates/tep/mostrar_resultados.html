@@ -8,33 +8,37 @@
 
 {% block content %}
 
-<div class="container-fluid">  
+<div class="container-fluid">
   <div class="row">
-    <div class="col-lg-8 col-8 offset-lg-2">              
-      {% if prediccion_nn %}
-        <div class="small-box bg-warning">        
-            <div class="inner">
-            <h3>El paciente ha sido diagnosticado con TEP</h3>
-            <h4>{{nombre_paciente}}</h4>
-            </div>
-            <!-- </a> -->
-            <div class="icon">
-            <i class="fas fa-microscope"></i>
-            </div>        
-        </div>  
-      {% else %}
-        <div class="small-box bg-info">        
-            <div class="inner">
-            <h3>Se descarta diagnóstico de TEP en paciente</h3>
-            <h4>{{nombre_paciente}}</h4>
-            </div>
-            <!-- </a> -->
-            <div class="icon">
-            <i class="fas fa-heartbeat"></i>
-            </div>        
-        </div>  
-      {% endif%}
-    </div>      
+    {% for prediccion in predicciones %}
+
+      <div class="col-lg-4 col-4">
+        {% if prediccion.diagnostico %}
+          <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>TEP Positivo</h3>
+                <h4>{{ prediccion.nombre}}</h4>
+                <p>{{nombre_paciente}}</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-microscope"></i>
+              </div>
+          </div>
+        {% else %}
+          <div class="small-box bg-info">
+              <div class="inner">
+                <h3>TEP Negativo</h3>
+                <h4>{{ prediccion.nombre}}</h4>
+                <p>{{nombre_paciente}}</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-heartbeat"></i>
+              </div>
+          </div>
+        {% endif%}
+      </div>
+
+    {% endfor %}
   </div>
 
 {% endblock %}

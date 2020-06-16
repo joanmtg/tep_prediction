@@ -167,17 +167,34 @@ def datos_medicos(request, consulta_anonima, id_paciente):
 
             if csv_creado:
 
+                #TODO Agregar predicción con los otros dos modelos
                 #Realizar predicción con el script de R
-                result = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict_NN.R')
-                prediccion_NN = result[0][0][0] == 1.0
+                result_nn = r['source'](CSV_AND_SCRIPTS_FOLDER + 'tep_predict_NN.R')
+                result_svm = r['source'](CSV_AND_SCRIPTS_FOLDER + 'predict_svm.R')
+                result_random_forest = r['source'](CSV_AND_SCRIPTS_FOLDER + 'predict_random_forest.R')
+                
+                print("SVM")
+                print(result_svm)
+                prediccion_NN = result_nn[0][0][0] == 1.0
+                """ prediccion_svm = result_svm[0][0][0] == 1.0
+                prediccion_random_forest = result_random_forest[0][0][0] == 1.0 """
+
                 if not anonimo:
                     #Guardar diagnóstico calculad en la BD
                     diagnostico = Diagnostico.objects.all().order_by('-pk')[0]
                     diagnostico.diagnostico_nn = prediccion_NN
+                    # diagnostico.diagnostico_svm = prediccion_svm
+                    # diagnostico.diagnostico_random_forest = prediccion_random_forest
                     diagnostico.save()
+                
+                lista_diagnosticos = list()
+
+                lista_diagnosticos.append({'nombre': "Redes Neuronales", 'diagnostico': prediccion_NN})
+                # lista_diagnosticos.append({'nombre': "Máquinas S. Vectorial", 'diagnostico': prediccion_svm})
+                # lista_diagnosticos.append({'nombre': "Random Forest", 'diagnostico': prediccion_random_forest})
 
                 #Se renderiza el template con los resultados obtenidos
-                return render(request, 'tep/mostrar_resultados.html', {'prediccion_nn':prediccion_NN,
+                return render(request, 'tep/mostrar_resultados.html', {'predicciones':lista_diagnosticos,
                                                                     'id_paciente': id_paciente,
                                                                     'nombre_paciente': nombre_paciente})
         else:
@@ -221,7 +238,7 @@ def historico_diagnosticos(request):
     current_user = request.user
 
     #Se cargan los diagnósticos asociados al médico logueado en el sistema desde la BD
-    diagnosticos = Diagnostico.objects.filter(paciente__medico=request.user.id).values('id', 'paciente', 'diagnostico_nn', 'fecha', 'edad', 'genero', 'aprobado').order_by('-id')
+    diagnosticos = Diagnostico.objects.filter(paciente__medico=request.user.id).values('id', 'paciente', 'diagnostico_nn', 'fecha', 'edad', 'genero', 'aprobado_nn').order_by('-id')
     process_data = list(diagnosticos)
     data_diagnosticos = list()
 
@@ -229,9 +246,9 @@ def historico_diagnosticos(request):
 
         #TODO: Agregar y validar aprobación de los otros dos modelos
         #Se validan las aprobaciones del diagnóstico (si existen)
-        aprobado = 'Sin valoración'
-        if diagnostico['aprobado'] is not None:
-            aprobado =  'SÍ' if diagnostico['aprobado'] else 'NO'
+        aprobado_nn = 'Sin valoración'
+        if diagnostico['aprobado_nn'] is not None:
+            aprobado_nn =  'SÍ' if diagnostico['aprobado_nn'] else 'NO'
 
         #Se carga la información del paciente
         paciente = Paciente.objects.get(pk=diagnostico['paciente'])
@@ -245,7 +262,7 @@ def historico_diagnosticos(request):
                             'sexo': 'Masculino' if diagnostico['genero'] == 1 else 'Femenino',
                             'edad': diagnostico['edad'],
                             'diagnostico_nn': 'Detectado' if diagnostico['diagnostico_nn'] else 'No detectado',
-                            'aprobado': aprobado}
+                            'aprobado_nn': aprobado_nn}
         data_diagnosticos.append(get_diagnostico)
 
     return render(request, 'tep/historico_diagnosticos.html', {'diagnosticos': json.dumps(data_diagnosticos)})
@@ -399,7 +416,7 @@ def diagnostico_multiple(request):
                 diagnosticos_pacientes.append({'id_diagnostico': 0,
                                                 'paciente': 'Anónimo'})
 
-        #Se crea el csv con datos micos a ser utilizados por el script de predicción en R
+        #Se crea el csv con datos médicos a ser utilizados por el script de predicción en R
         csv_file =  CSV_AND_SCRIPTS_FOLDER + 'input.csv'
         patient_dict = diagnosticos
         csv_creado = crear_csv(diagnosticos, csv_file)
@@ -448,7 +465,7 @@ def validacion_diagnosticos(request, cod_operacion):
 
         for id_diag in ids_diagnosticos:
             diagnostico = Diagnostico.objects.get(pk=id_diag)
-            diagnostico.aprobado = cod_operacion == 1
+            diagnostico.aprobado_nn = cod_operacion == 1
             diagnostico.save()
 
     return JsonResponse({'operacion': True})
