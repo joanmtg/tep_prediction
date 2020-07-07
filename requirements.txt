@@ -3,7 +3,7 @@ astroid==2.3.3
 attrs==19.3.0
 cffi==1.14.0
 djangify==1.0.0
-Django==3.0.5
+Django==3.0.7
 django-adminlte3==0.1.2
 django-crispy-forms==1.9.0
 django-jquery==3.1.0
