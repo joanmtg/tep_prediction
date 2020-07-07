@@ -166,12 +166,15 @@ class Diagnostico(models.Model):
     plt = models.IntegerField(choices=OP_PLT, verbose_name='Conteo de plaquetas (PLT)')
     derrame = models.IntegerField(choices=OP_DERRAME)
 
+
+    """TODO
+    Agregar diagnostico_svm, diagnostico_random_forest y separar
+    la aprobación en tres campos correspondientes a cada modelo
+    """
     diagnostico_nn = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Redes Neuronales')
-    diagnostico_svm = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico SVM')
-    diagnostico_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Random Forest')
-    aprobado_nn = models.BooleanField(blank= True, null=True, verbose_name='Aprobado NN')
-    aprobado_svm = models.BooleanField(blank= True, null=True, verbose_name='Aprobado SVM')
-    aprobado_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Aprobado RF')
+    aprobado = models.BooleanField(blank= True, null=True, verbose_name='Aprobado')
+    #diagnostico_svm = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico SVM')
+    #diagnostico_random_forest = models.BooleanField(blank= True, null=True, verbose_name='Diagnóstico Random Forest')
     fecha = models.DateTimeField(auto_now_add=True)
 
 """  def __str__(self):

@@ -34,9 +34,9 @@ INSTALLED_APPS = [
     'adminlte3',
     'tep.apps.TepConfig',
      # General use templates & template tags (should appear first)
-
+    
      # Optional: Django admin theme (must be before django.contrib.admin)
-    'adminlte3_theme',
+    'adminlte3_theme',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
