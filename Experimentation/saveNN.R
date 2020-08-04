@@ -4,11 +4,11 @@ library(plyr)
 library(Metrics)
 library(caret)
 
-set.seed(111)
+set.seed(112)
 
 DEP_LIBS = c("neuralnet")
 
-setwd("/home/joan/Desktop/Experimentation")
+setwd("/home/joan/Desktop/Tesis/tep_prediction/Experimentation/")
 data = read.table("data_tep.csv", header = T, sep=",")
 dim(data)
 total_index = 1:nrow(data)
@@ -73,6 +73,6 @@ file_conn <- file('final_model_nn.dep')
 writeLines(DEP_LIBS, file_conn)
 close(file_conn)
 
-#saveRDS(NN, "final_model_nn.rds")
+saveRDS(NN, "final_model_nn.rds")
 
 

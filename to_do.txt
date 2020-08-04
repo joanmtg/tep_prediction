@@ -1,4 +1,0 @@
-- Título de la barra lateral TEP Prediction como en el Login (DONE)
-- Botones de login y logout (DONE)
-- Página de bienvenida (DONE)
-- Working directory R scripts (subscript con argumento)
